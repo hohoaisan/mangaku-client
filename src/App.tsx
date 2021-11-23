@@ -12,6 +12,7 @@ import {
   Easing,
   useColorScheme,
   Linking,
+  ImageSourcePropType,
 } from 'react-native';
 import logo from './logo.png';
 
@@ -36,7 +37,6 @@ const App = () => {
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
   });
-
   return (
     <SafeAreaView style={styles.scrollView}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -46,7 +46,7 @@ const App = () => {
         contentContainerStyle={styles.scrollView}>
         <View style={styles.container}>
           <Animated.Image
-            source={{uri: logo}}
+            source={logo as ImageSourcePropType}
             style={[styles.logo, {transform: [{rotate: spin}]}]}
           />
           <Text style={styles.title}>Create React Native Web App</Text>
