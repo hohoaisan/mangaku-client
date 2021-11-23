@@ -13,10 +13,15 @@
     "eject": "react-app-rewired eject"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
     "babel-loader": "8.1.0",
     "react": "17.0.2",
     "react-dom": "^17.0.2",
     "react-native": "0.65.1",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.9.0",
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "^0.17.1",
     "react-scripts": "4.0.3",
