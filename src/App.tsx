@@ -46,7 +46,7 @@ const App = () => {
         contentContainerStyle={styles.scrollView}>
         <View style={styles.container}>
           <Animated.Image
-            source={logo}
+            source={{uri: logo}}
             style={[styles.logo, {transform: [{rotate: spin}]}]}
           />
           <Text style={styles.title}>Create React Native Web App</Text>
@@ -72,15 +72,13 @@ const App = () => {
                 : undefined
             }
             accessibilityRole="link"
-            href="https://github.com/necolas/react-native-web"
-            target="_blank">
+            // href="https://github.com/necolas/react-native-web"
+            // target="_blank"
+          >
             Click here to learn more about react native web
           </Text>
 
-          <Pressable
-            onPress={onPress}
-            style={styles.button}
-            underlayColor={'#0A84D0'}>
+          <Pressable onPress={onPress} style={styles.button}>
             <View>
               <Text style={styles.buttonText}>Rotate Logo</Text>
             </View>
