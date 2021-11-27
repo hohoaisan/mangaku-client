@@ -1,12 +1,16 @@
-import React, {useRef, useState} from 'react';
-import {SafeAreaView, View, Platform} from 'react-native';
+import React from 'react';
+import {NativeBaseProvider} from 'native-base';
+import theme from 'themes/nativebase';
 import {Navigation} from './navigation';
-import logo from './logo.png';
-
-const isNative = Platform.OS !== 'web';
+import AppBar from 'components/Appbar';
 
 const App = () => {
-  return <Navigation />;
+  return (
+    <NativeBaseProvider theme={theme}>
+      <AppBar />
+      <Navigation />
+    </NativeBaseProvider>
+  );
 };
 
 export default App;

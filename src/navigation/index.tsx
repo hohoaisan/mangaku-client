@@ -3,11 +3,19 @@ import {
   NavigationContainer,
   LinkingOptions,
   DefaultTheme,
-  DarkTheme,
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useColorScheme} from 'react-native';
-import {Details, Home, Profile, Favorite, Search} from '../screens';
+
+import {
+  Details,
+  Home,
+  Profile,
+  Favorite,
+  Search,
+  Login,
+  Register,
+  NotFound,
+} from '../screens';
 import './GestureHandler';
 
 export type StackParams = {
@@ -16,6 +24,9 @@ export type StackParams = {
   Search: {query: string} | undefined;
   Favorite: undefined;
   Profile: undefined;
+  Login: undefined;
+  Register: undefined;
+  NotFound: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
@@ -31,22 +42,37 @@ const linking: LinkingOptions<StackParams> = {
       Search: '/search',
       Favorite: '/favorite',
       Profile: '/profile',
+      Login: '/login',
+      Register: '/register',
+      NotFound: '/*',
     },
   },
 };
 
+export type ScreenOptions = React.ComponentProps<typeof Stack.Screen>;
+
+const screens: ScreenOptions[] = [
+  {name: 'Home', component: Home, options: {headerShown: false}},
+  {
+    name: 'Search',
+    component: Search,
+    options: {headerShown: false},
+  },
+  {name: 'Favorite', component: Favorite, options: {headerShown: false}},
+  {name: 'Profile', component: Profile, options: {headerShown: false}},
+  {name: 'Details', component: Details, options: {headerShown: false}},
+  {name: 'Login', component: Login, options: {headerShown: false}},
+  {name: 'Register', component: Register, options: {headerShown: false}},
+  {name: 'NotFound', component: NotFound, options: {headerShown: false}},
+];
+
 export function Navigation(): ReactElement {
-  const isDarkMode = useColorScheme() === 'dark';
   return (
-    <NavigationContainer
-      theme={isDarkMode ? DarkTheme : DefaultTheme}
-      linking={linking}>
+    <NavigationContainer theme={DefaultTheme} linking={linking}>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Search" component={Search} />
-        <Stack.Screen name="Favorite" component={Favorite} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Details" component={Details} />
+        {screens.map(props => (
+          <Stack.Screen key={props.name} {...props} />
+        ))}
       </Stack.Navigator>
     </NavigationContainer>
   );
