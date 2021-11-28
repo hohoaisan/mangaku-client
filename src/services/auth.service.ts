@@ -3,7 +3,7 @@ import axios, {AxiosError} from 'axios';
 import * as AuthSlice from 'redux/auth.slice';
 import TokenService from './token.service';
 import ToastService from './toast.service';
-import {LoginApiProps, ResponseErrorData} from 'types/apis';
+import {LoginApiProps, RegisterApiProps, ResponseErrorData} from 'types/apis';
 import * as authAPI from 'apis/auth';
 import * as profileAPI from 'apis/profile';
 import httpStatus from 'http-status';
@@ -82,6 +82,21 @@ class AuthService {
       }
     }
     return Promise.resolve();
+  }
+
+  static async register(props: RegisterApiProps): Promise<void> {
+    try {
+      store.dispatch(AuthSlice.registerPending());
+      await authAPI.register(props);
+      store.dispatch(AuthSlice.registerSuccess());
+      return Promise.resolve();
+    } catch (err) {
+      store.dispatch(AuthSlice.registerFailed());
+      if (axios.isAxiosError(err) && err.response?.data) {
+        return Promise.reject(err.response.data as ResponseErrorData);
+      }
+      return Promise.reject(err);
+    }
   }
 }
 

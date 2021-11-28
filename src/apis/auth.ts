@@ -6,6 +6,7 @@ import {
   RefreshTokenApiResponse,
   LoginApiProps,
   LoginApiResponse,
+  RegisterApiProps,
 } from 'types/apis';
 
 export const refreshAccessToken = async (
@@ -52,6 +53,21 @@ export const logout = async (
       data: {
         refreshToken: props.refreshToken,
       },
+    })
+    .then(res => res.data);
+  return result;
+};
+
+export const register = async (
+  props: RegisterApiProps,
+  AxiosOptions?: AxiosRequestConfig,
+): Promise<never> => {
+  const result = axios
+    .request<never>({
+      ...AxiosOptions,
+      method: 'post',
+      url: AuthAPI.REGISTER,
+      data: props,
     })
     .then(res => res.data);
   return result;

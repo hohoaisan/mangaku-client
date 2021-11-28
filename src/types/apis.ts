@@ -27,3 +27,10 @@ export type ResponseErrorData = {
   code: number;
   message: string;
 };
+
+export type RegisterApiProps = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
