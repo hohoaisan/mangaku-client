@@ -19,6 +19,7 @@
     "@reduxjs/toolkit": "^1.6.2",
     "axios": "^0.24.0",
     "babel-loader": "8.1.0",
+    "formik": "^2.2.9",
     "http-status": "^1.5.0",
     "native-base": "^3.2.2",
     "react": "17.0.2",
@@ -32,7 +33,8 @@
     "react-native-web": "^0.17.1",
     "react-redux": "^7.2.6",
     "react-scripts": "4.0.3",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
