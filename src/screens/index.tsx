@@ -3,6 +3,6 @@ export * from './Home';
 export * from './Profile';
 export * from './Search';
 export * from './Favorite';
-export * from './Login';
-export * from './Register';
+export * from './AuthScreens/Login';
+export * from './AuthScreens/Register';
 export * from './NotFound';
