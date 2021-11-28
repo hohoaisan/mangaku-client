@@ -65,7 +65,6 @@ class AuthService {
     }
     try {
       const result = await authAPI.logout({refreshToken});
-      store.dispatch(AuthSlice.logout());
       Promise.resolve(result);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data) {
@@ -73,6 +72,7 @@ class AuthService {
       }
       return Promise.reject(err);
     } finally {
+      store.dispatch(AuthSlice.logout());
       ToastService.destroyAll();
       TokenService.clearTokens();
       if (tokenExpired) {
