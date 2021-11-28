@@ -1,20 +1,15 @@
+import React, {ReactElement, useEffect} from 'react';
+import {GestureResponderEvent, StyleSheet} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {ReactElement} from 'react';
-import {StackParams} from '../../../navigation';
-import {
-  Box,
-  Text,
-  Heading,
-  VStack,
-  FormControl,
-  Input,
-  Link,
-  Button,
-  HStack,
-  ScrollView,
-} from 'native-base';
-import {GestureResponderEvent, StyleSheet} from 'react-native';
+import {StackParams} from 'navigation';
+
+import {Box, Text, Heading, Link, HStack, ScrollView} from 'native-base';
+
+import AuthRegister from '../auth-forms/AuthRegister';
+import useAuth from 'hooks/useAuth';
+
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Register'>;
 
 const styles = StyleSheet.create({
@@ -24,10 +19,13 @@ const styles = StyleSheet.create({
 });
 
 export function Register(): ReactElement {
+  const auth = useAuth();
   const {navigate} = useNavigation<NavigationProps>();
-  const handleSignUpPress = () => {
-    return;
-  };
+  useEffect(() => {
+    if (auth.isLoggedIn) {
+      navigate('Home');
+    }
+  }, [auth.isLoggedIn, navigate]);
   const handleSignInPress = (event?: GestureResponderEvent) => {
     if (event) {
       event.preventDefault();
@@ -69,28 +67,7 @@ export function Register(): ReactElement {
             size="xs">
             Sign up to have better experience!
           </Heading>
-
-          <VStack space={3} mt="5">
-            <FormControl>
-              <FormControl.Label>Name</FormControl.Label>
-              <Input />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Email</FormControl.Label>
-              <Input />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Password</FormControl.Label>
-              <Input type="password" />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Confirm password</FormControl.Label>
-              <Input type="password" />
-            </FormControl>
-            <Button mt="2" colorScheme="primary">
-              Sign up
-            </Button>
-          </VStack>
+          <AuthRegister />
           <HStack mt="6" justifyContent="center">
             <Text
               fontSize="sm"
