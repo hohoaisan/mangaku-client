@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackParams} from '../../../navigation';
@@ -7,14 +7,14 @@ import {
   Text,
   Heading,
   VStack,
-  FormControl,
-  Input,
   Link,
-  Button,
   HStack,
   ScrollView,
 } from 'native-base';
 import {StyleSheet, GestureResponderEvent} from 'react-native';
+import useAuth from 'hooks/useAuth';
+import AuthLogin from '../auth-forms/AuthLogin';
+
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Login'>;
 
 const styles = StyleSheet.create({
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
 });
 
 export function Login(): ReactElement {
+  const auth = useAuth();
   const {navigate} = useNavigation<NavigationProps>();
   const handleSignUpPress = (event?: GestureResponderEvent) => {
     if (event) {
@@ -31,6 +32,11 @@ export function Login(): ReactElement {
     }
     navigate('Register');
   };
+  useEffect(() => {
+    if (auth.isLoggedIn) {
+      navigate('Home');
+    }
+  }, [auth.isLoggedIn, navigate]);
   return (
     <ScrollView contentContainerStyle={styles.root}>
       <Box
@@ -68,27 +74,7 @@ export function Login(): ReactElement {
           </Heading>
 
           <VStack space={3} mt="5">
-            <FormControl>
-              <FormControl.Label>Email</FormControl.Label>
-              <Input />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Password</FormControl.Label>
-              <Input type="password" />
-              <Link
-                _text={{
-                  fontSize: 'xs',
-                  fontWeight: '500',
-                  color: 'primary.500',
-                }}
-                alignSelf="flex-end"
-                mt="1">
-                Forget Password?
-              </Link>
-            </FormControl>
-            <Button mt="2" colorScheme="primary">
-              Sign in
-            </Button>
+            <AuthLogin />
             <HStack mt="6" justifyContent="center">
               <Text
                 fontSize="sm"
