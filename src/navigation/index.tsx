@@ -3,6 +3,7 @@ import {
   NavigationContainer,
   LinkingOptions,
   DefaultTheme,
+  PathConfigMap,
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -15,18 +16,37 @@ import {
   Login,
   Register,
   NotFound,
+  ComicDetail,
+  ComicChapter,
 } from '../screens';
+
 import './GestureHandler';
+import {QueryString} from 'types';
 
 export type StackParams = {
   Home: undefined;
   Details: {data: string} | undefined;
-  Search: {query: string} | undefined;
+  Search: QueryString | undefined;
   Favorite: undefined;
   Profile: undefined;
   Login: undefined;
   Register: undefined;
   NotFound: undefined;
+  ComicDetail: {comicId: string};
+  ComicChapter: {comicId: string; chapterId: string};
+};
+
+export const paths: PathConfigMap<StackParams> = {
+  Home: '/',
+  Details: '/details',
+  Search: '/comics',
+  Favorite: '/favorite',
+  Profile: '/profile',
+  Login: '/login',
+  Register: '/register',
+  NotFound: '/*',
+  ComicDetail: '/comics/:comicId',
+  ComicChapter: '/comics/:comicId/chapters/:chapterId',
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
@@ -36,16 +56,7 @@ const linking: LinkingOptions<StackParams> = {
   ],
   config: {
     /* configuration for matching screens with paths */
-    screens: {
-      Home: '/',
-      Details: '/details',
-      Search: '/search',
-      Favorite: '/favorite',
-      Profile: '/profile',
-      Login: '/login',
-      Register: '/register',
-      NotFound: '/*',
-    },
+    screens: paths,
   },
 };
 
@@ -57,12 +68,23 @@ const screens: ScreenOptions[] = [
     name: 'Search',
     component: Search,
     options: {headerShown: false},
+    initialParams: {
+      search: '',
+      limit: 24,
+      sortBy: 'title:ASC',
+    },
   },
   {name: 'Favorite', component: Favorite, options: {headerShown: false}},
   {name: 'Profile', component: Profile, options: {headerShown: false}},
   {name: 'Details', component: Details, options: {headerShown: false}},
   {name: 'Login', component: Login, options: {headerShown: false}},
   {name: 'Register', component: Register, options: {headerShown: false}},
+  {name: 'ComicDetail', component: ComicDetail, options: {headerShown: false}},
+  {
+    name: 'ComicChapter',
+    component: ComicChapter,
+    options: {headerShown: false},
+  },
   {name: 'NotFound', component: NotFound, options: {headerShown: false}},
 ];
 

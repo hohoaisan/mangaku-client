@@ -6,3 +6,5 @@ export * from './Favorite';
 export * from './AuthScreens/Login';
 export * from './AuthScreens/Register';
 export * from './NotFound';
+export * from './ComicDetail';
+export * from './ComicChapter';
