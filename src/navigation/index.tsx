@@ -69,6 +69,7 @@ const screens: ScreenOptions[] = [
     component: Search,
     options: {headerShown: false},
     initialParams: {
+      page: 1,
       search: '',
       limit: 24,
       sortBy: 'title:ASC',
