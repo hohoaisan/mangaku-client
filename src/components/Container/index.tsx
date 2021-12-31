@@ -6,7 +6,7 @@ const settings = {base: '95%', sm: '90%', md: 700, lg: 900, xl: 1200};
 
 export const Container: React.FC<IBoxProps> = ({children, ...props}) => {
   return (
-    <Box flexDirection={'row'} flex={1} justifyContent={'center'}>
+    <Box flexDirection={'row'} width={'100%'} justifyContent={'center'}>
       <Box w={settings} minW={settings} maxW={settings} {...props}>
         {children}
       </Box>

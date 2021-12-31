@@ -1,4 +1,10 @@
-import React, {ReactElement, useCallback, useEffect, useState} from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import {useQuery} from 'react-query';
 import {
   RouteProp,
@@ -7,7 +13,11 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RefreshControl} from 'react-native';
+import {
+  RefreshControl,
+  ListRenderItemInfo,
+  ScrollView as BaseScrollView,
+} from 'react-native';
 import {
   Box,
   Text,
@@ -17,15 +27,17 @@ import {
   Input,
   Button,
   Spinner,
+  FlatList,
+  useBreakpointValue,
 } from 'native-base';
 
-import {ComicCard, Container} from 'components';
+import {ComicCard, Container, Pagination} from 'components';
 import {StackParams} from '../../navigation';
 
 import {COMICS} from 'query/queryKeys';
 import {getAllComics} from 'apis/comic';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
-import {ComicsQuery} from 'types';
+import {ComicsQuery, Comic} from 'types';
 import ScreenWrapper from 'screens/helpers/ScreenWrapper';
 
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Search'>;
@@ -50,6 +62,10 @@ function SearchResult({
   isRefetching,
   data,
 }: SearchResultProps): ReactElement {
+  const {setParams} = useNavigation<NavigationProps>();
+  const {params} = useRoute<RouteProps>();
+  const columns = useBreakpointValue({base: 2, sm: 3, lg: 6});
+
   if (isError) {
     const errorMessage = getAPIErrorMessage(error);
     return (
@@ -86,13 +102,31 @@ function SearchResult({
           </Heading>
         </Box>
         <Box>
-          <HStack flexWrap={'wrap'}>
-            {data.data?.map(({id, title, cover}) => (
-              <Box key={id} w={{base: '50%', sm: '25%', xl: '16%'}} padding={2}>
-                <ComicCard key={id} id={id} title={title} cover={cover} />
-              </Box>
-            ))}
+          <HStack space={0} flexWrap={'wrap'}>
+            <FlatList
+              key={columns}
+              data={data?.data || []}
+              keyExtractor={(item: Comic) => item.id}
+              numColumns={columns}
+              renderItem={({item}: ListRenderItemInfo<Comic>) => (
+                <Box flex={1} maxW={`${100 / columns}%`}>
+                  <Box margin={2}>
+                    <ComicCard {...item} />
+                  </Box>
+                </Box>
+              )}
+            />
           </HStack>
+          {data?.pages > 1 && (
+            <HStack justifyContent={'center'} mt={5} mb={5}>
+              <Pagination
+                defaultPage={1}
+                page={data?.page || Number.parseInt(String(params?.page), 10)}
+                count={data?.pages}
+                onChange={(event, value) => setParams({page: value})}
+              />
+            </HStack>
+          )}
         </Box>
       </Box>
     );
@@ -106,13 +140,21 @@ function SearchResult({
 
 export function Search(): ReactElement {
   const {setParams} = useNavigation<NavigationProps>();
-  const [searchString, setSearchString] = useState('');
   const {params} = useRoute<RouteProps>();
+  const [searchString, setSearchString] = useState('');
   const queries = {...params};
   const {data, isLoading, isRefetching, refetch, isFetched, isError, error} =
     useQuery([COMICS, queries], () => getAllComics(queries), {
       keepPreviousData: false,
     });
+
+  const scrollRef = useRef<BaseScrollView>();
+  useEffect(() => {
+    if (scrollRef?.current) {
+      return scrollRef.current.scrollTo({x: 0, y: 0, animated: true});
+    }
+  }, [params]);
+
   const onInputChange = (text: string) => {
     setSearchString(text);
   };
@@ -141,8 +183,8 @@ export function Search(): ReactElement {
           <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
         ) : undefined
       }>
-      <ScrollView bgColor={'white'}>
-        <Container>
+      <ScrollView ref={scrollRef} bgColor={'white'}>
+        <Container mb={4}>
           <Box minW={'100%'}>
             <Box alignSelf={'center'} mb={4} _web={{mb: 10}}>
               <Heading
