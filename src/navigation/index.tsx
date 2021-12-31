@@ -37,7 +37,7 @@ export type StackParams = {
 };
 
 export const paths: PathConfigMap<StackParams> = {
-  Home: '/',
+  Home: '',
   Details: '/details',
   Search: '/comics',
   Favorite: '/favorite',
