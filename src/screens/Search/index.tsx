@@ -22,16 +22,13 @@ import {
   Box,
   Text,
   Heading,
-  ScrollView,
   HStack,
-  Input,
-  Button,
   Spinner,
   FlatList,
   useBreakpointValue,
 } from 'native-base';
 
-import {ComicCard, Container, Pagination} from 'components';
+import {ComicCard, Container, Pagination, SearchInput} from 'components';
 import {StackParams} from '../../navigation';
 
 import {COMICS} from 'query/queryKeys';
@@ -104,6 +101,8 @@ function SearchResult({
         <Box>
           <HStack space={0} flexWrap={'wrap'}>
             <FlatList
+              w="full"
+              listKey="comic-search-list"
               key={columns}
               data={data?.data || []}
               keyExtractor={(item: Comic) => item.id}
@@ -141,7 +140,6 @@ function SearchResult({
 export function Search(): ReactElement {
   const {setParams} = useNavigation<NavigationProps>();
   const {params} = useRoute<RouteProps>();
-  const [searchString, setSearchString] = useState('');
   const queries = {...params};
   const {data, isLoading, isRefetching, refetch, isFetched, isError, error} =
     useQuery([COMICS, queries], () => getAllComics(queries), {
@@ -155,11 +153,8 @@ export function Search(): ReactElement {
     }
   }, [params]);
 
-  const onInputChange = (text: string) => {
-    setSearchString(text);
-  };
-  const onSearchSubmit = () => {
-    setParams({search: searchString});
+  const onSearchSubmit = (text: string) => {
+    setParams({search: text});
   };
 
   useFocusEffect(
@@ -170,12 +165,6 @@ export function Search(): ReactElement {
     }, [params?.search, refetch]),
   );
 
-  useEffect(() => {
-    if (params?.search) {
-      setSearchString(params?.search);
-    }
-  }, []);
-
   return (
     <ScreenWrapper
       refreshControl={
@@ -183,43 +172,37 @@ export function Search(): ReactElement {
           <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
         ) : undefined
       }>
-      <ScrollView ref={scrollRef} bgColor={'white'}>
-        <Container mb={4}>
-          <Box minW={'100%'}>
-            <Box alignSelf={'center'} mb={4} _web={{mb: 10}}>
-              <Heading
-                fontWeight="medium"
-                textAlign={'center'}
-                mt={5}
-                mb={4}
-                _web={{mt: 10}}>
-                Search comic
-              </Heading>
-              <HStack space={2} w={{base: '100%', md: 500}}>
-                <Input
-                  flex={1}
-                  value={searchString}
-                  placeholder="Type here to search"
-                  onSubmitEditing={onSearchSubmit}
-                  onChangeText={onInputChange}
-                />
-                <Button onPress={onSearchSubmit}>Search</Button>
-              </HStack>
-            </Box>
-            <Box>
-              <SearchResult
-                query={params?.search}
-                isError={isError}
-                error={error}
-                isFetched={isFetched}
-                isLoading={isLoading}
-                isRefetching={isRefetching}
-                data={data}
+      <Container mb={4}>
+        <Box minW={'100%'}>
+          <Box alignSelf={'center'} mb={4} _web={{mb: 10}}>
+            <Heading
+              fontWeight="medium"
+              textAlign={'center'}
+              mt={5}
+              mb={4}
+              _web={{mt: 10}}>
+              Search comic
+            </Heading>
+            <HStack space={2} w={{base: '100%', md: 500}}>
+              <SearchInput
+                defaultValue={params?.search}
+                onSearchSubmit={onSearchSubmit}
               />
-            </Box>
+            </HStack>
           </Box>
-        </Container>
-      </ScrollView>
+          <Box>
+            <SearchResult
+              query={params?.search}
+              isError={isError}
+              error={error}
+              isFetched={isFetched}
+              isLoading={isLoading}
+              isRefetching={isRefetching}
+              data={data}
+            />
+          </Box>
+        </Box>
+      </Container>
     </ScreenWrapper>
   );
 }

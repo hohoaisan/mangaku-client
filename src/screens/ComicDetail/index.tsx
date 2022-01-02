@@ -28,6 +28,7 @@ import {getAllChapters} from 'apis/chapter';
 
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import resolveImgUrl from 'utils/resolveImageUrl';
+import ScreenWrapper from 'screens/helpers/ScreenWrapper';
 
 type RouteProps = RouteProp<StackParams, 'ComicDetail'>;
 
@@ -111,15 +112,14 @@ export function ComicDetail(): ReactElement {
   const {data} = chapterQuery.data;
 
   return (
-    <Box flex={1}>
-      <ScrollView
-        bgColor={'white'}
-        refreshControl={
-          <RefreshControl
-            refreshing={comicQuery.isRefetching || chapterQuery.isRefetching}
-            onRefresh={refetch}
-          />
-        }>
+    <ScreenWrapper
+      refreshControl={
+        <RefreshControl
+          refreshing={comicQuery.isRefetching || chapterQuery.isRefetching}
+          onRefresh={refetch}
+        />
+      }>
+      <ScrollView bgColor={'white'}>
         <Container mb={10}>
           <Box minW={'100%'}>
             <Box
@@ -281,6 +281,6 @@ export function ComicDetail(): ReactElement {
           </Box>
         </Container>
       </ScrollView>
-    </Box>
+    </ScreenWrapper>
   );
 }

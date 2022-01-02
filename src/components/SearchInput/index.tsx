@@ -1,5 +1,6 @@
 import React, {ReactElement, useCallback, useEffect, useState} from 'react';
-import {Input, HStack, Button, IInputProps} from 'native-base';
+import {Input, HStack, IInputProps, IconButton, Icon} from 'native-base';
+import VectorIcon from 'react-native-vector-icons/Ionicons';
 
 export type SearchInputProps = IInputProps & {
   defaultValue?: string;
@@ -35,9 +36,19 @@ export function SearchInput({
         onChangeText={onInputChange}
         size={size}
       />
-      <Button onPress={onSubmit} size={size}>
-        Search
-      </Button>
+      <IconButton
+        bgColor={'primary.600'}
+        justifyContent={'center'}
+        alignContent={'center'}
+        onPress={onSubmit}
+        icon={
+          <Icon
+            as={<VectorIcon name="search-outline" />}
+            size="sm"
+            color="white"
+          />
+        }
+      />
     </HStack>
   );
 }
