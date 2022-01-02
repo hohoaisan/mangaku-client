@@ -121,8 +121,10 @@ function LandingSection({
               <Spinner color="cyan.500" />
             </Box>
           ) : (
-            <HStack space={0} flexWrap={'wrap'}>
+            <HStack space={0} flexWrap={'wrap'} w="100%">
               <FlatList
+                w="100%"
+                listKey={`landing-list-${id}-${columns}`}
                 key={columns}
                 data={data?.data || []}
                 keyExtractor={(item: Comic) => item.id}
@@ -159,7 +161,7 @@ export function Home(): ReactElement {
   return (
     <ScreenWrapper
       refreshControl={
-        <RefreshControl refreshing={false} onRefresh={refetch} />
+        <RefreshControl refreshing={false} onRefresh={refetch} enabled={true} />
       }>
       <ScrollView flex={1}>
         <ImageBackground
