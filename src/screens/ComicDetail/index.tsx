@@ -29,6 +29,7 @@ import {getAllChapters} from 'apis/chapter';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import resolveImgUrl from 'utils/resolveImageUrl';
 import ScreenWrapper from 'screens/helpers/ScreenWrapper';
+import {FavoriteButton} from 'components/FavoriteButton';
 
 type RouteProps = RouteProp<StackParams, 'ComicDetail'>;
 
@@ -61,56 +62,6 @@ export function ComicDetail(): ReactElement {
     comicQuery.refetch();
   };
 
-  if (comicQuery.isError || chapterQuery.isError) {
-    const errorMessage =
-      getAPIErrorMessage(comicQuery.error) ||
-      getAPIErrorMessage(chapterQuery.error);
-    return (
-      <Box
-        w="100%"
-        mt={5}
-        mb={5}
-        justifyContent={'center'}
-        alignItems={'center'}>
-        <Text>{errorMessage}</Text>
-      </Box>
-    );
-  }
-
-  if (
-    !comicQuery.data ||
-    comicQuery.isLoading ||
-    !chapterQuery.data ||
-    chapterQuery.isLoading
-  ) {
-    return (
-      <Box
-        w="100%"
-        mt={5}
-        mb={5}
-        justifyContent={'center'}
-        alignItems={'center'}>
-        <Spinner color="cyan.500" />
-      </Box>
-    );
-  }
-
-  const handleGetAllChapterClick = () =>
-    setChapterQueries({limit: chapterQuery.data.total});
-
-  const {
-    title,
-    description,
-    cover,
-    rating,
-    numFavorites,
-    authors,
-    genres,
-    formats,
-  } = comicQuery.data;
-
-  const {data} = chapterQuery.data;
-
   return (
     <ScreenWrapper
       refreshControl={
@@ -119,168 +70,223 @@ export function ComicDetail(): ReactElement {
           onRefresh={refetch}
         />
       }>
-      <ScrollView bgColor={'white'}>
-        <Container mb={10}>
-          <Box minW={'100%'}>
+      {(() => {
+        if (comicQuery.isError || chapterQuery.isError) {
+          const errorMessage =
+            getAPIErrorMessage(comicQuery.error) ||
+            getAPIErrorMessage(chapterQuery.error);
+          return (
             <Box
-              flexDirection={{base: 'column', md: 'row'}}
-              mt={{base: 5, md: 10}}
-              mb={5}>
-              <Box alignItems={'center'}>
-                <Box
-                  borderRadius={5}
-                  overflow={'hidden'}
-                  padding={1}
-                  borderWidth={1}
-                  borderColor={'blue.100'}
-                  borderStyle={'solid'}
-                  mr={{base: 0, md: 5}}
-                  mb={{base: 2, md: 0}}>
-                  <AspectRatio
-                    minW={{base: 150, md: 250}}
-                    maxW={{base: 150, md: 250}}
-                    ratio={12 / 16}
-                    borderRadius={5}
-                    overflow={'hidden'}>
-                    <Image
-                      source={{
-                        uri: cover
-                          ? resolveImgUrl(cover)
-                          : 'https://via.placeholder.com/300x400',
-                      }}
-                      alt={title}
-                    />
-                  </AspectRatio>
-                </Box>
-              </Box>
-              <Box flex={1}>
-                <Box mb={{base: 2, md: 8}}>
-                  <Heading
-                    noOfLines={2}
-                    textAlign={{base: 'center', md: 'left'}}
-                    fontSize={{base: '2xl', sm: '2xl', md: '4xl'}}>
-                    {title}
-                  </Heading>
-                </Box>
-                <Box mb={2}>
-                  <Box>
-                    <HStack space={2}>
-                      <Heading fontSize={{base: 'md', md: 'lg'}}>
-                        Ratings:
-                      </Heading>
-                      <Heading
-                        fontSize={{base: 'md', md: 'lg'}}
-                        fontWeight={'normal'}>{`${
-                        rating ? rating : 'N/A'
-                      }`}</Heading>
-                    </HStack>
-                    <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
-                  </Box>
-                  <Box>
-                    <HStack space={2}>
-                      <Heading fontSize={{base: 'md', md: 'lg'}}>
-                        Favorites:
-                      </Heading>
-                      <Heading
-                        fontSize={{base: 'md', md: 'lg'}}
-                        fontWeight={'normal'}>{`${
-                        numFavorites ? numFavorites : 'N/A'
-                      }`}</Heading>
-                    </HStack>
-                    <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
-                  </Box>
-                  <Box>
-                    <HStack space={2}>
-                      <Heading fontSize={{base: 'md', md: 'lg'}}>
-                        Authors:
-                      </Heading>
-                      <HStack space={2} flexWrap={'wrap'} flex={1}>
-                        {authors.map(({id, name}) => (
-                          <Badge key={id}>{name}</Badge>
-                        ))}
-                      </HStack>
-                    </HStack>
-                    <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
-                  </Box>
-                  <Box display={showDetail ? 'flex' : 'none'}>
-                    <HStack space={2}>
-                      <Heading fontSize={{base: 'md', md: 'lg'}}>
-                        Formats:
-                      </Heading>
-                      <HStack space={2} flexWrap={'wrap'} flex={1}>
-                        {formats.map(({id, name}) => (
-                          <Badge key={id}>{name}</Badge>
-                        ))}
-                      </HStack>
-                    </HStack>
-                    <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
-                  </Box>
-                  <Box display={showDetail ? 'flex' : 'none'}>
-                    <HStack space={2}>
-                      <Heading fontSize={{base: 'md', md: 'lg'}}>
-                        Genres:
-                      </Heading>
-                      <HStack space={2} flexWrap={'wrap'} flex={1}>
-                        {genres.map(({id, name}) => (
-                          <Badge key={id}>{name}</Badge>
-                        ))}
-                      </HStack>
-                    </HStack>
-                    <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
-                  </Box>
-                  <VStack space={2}>
-                    <Heading fontSize={{base: 'md', md: 'lg'}}>
-                      Description:
-                    </Heading>
-                    <Text
-                      fontSize={{base: 'sm', md: 'md'}}
-                      numberOfLines={showDetail ? undefined : 2}>
-                      {description}
-                    </Text>
-                  </VStack>
-                </Box>
-                <Box flexDirection={'row'}>
-                  <Button
-                    size={'xs'}
-                    onPress={() => setShowDetail(!showDetail)}>
-                    {`${showDetail ? 'Hide' : 'Show'} details`}
-                  </Button>
-                </Box>
-              </Box>
+              w="100%"
+              mt={5}
+              mb={5}
+              justifyContent={'center'}
+              alignItems={'center'}>
+              <Text>{errorMessage}</Text>
             </Box>
-            <Box>
-              <Box mb={2}>
-                <Heading fontSize={'2xl'}>Chapters</Heading>
-              </Box>
-              <Box>
-                {data && data.length ? (
-                  <Box>
-                    <Box mb={4}>
-                      {data.map(chapter => (
-                        <Box key={chapter.id}>
-                          <ChapterItem {...chapter} />
-                          <Divider />
-                        </Box>
-                      ))}
+          );
+        }
+
+        if (
+          !comicQuery.data ||
+          comicQuery.isLoading ||
+          !chapterQuery.data ||
+          chapterQuery.isLoading
+        ) {
+          return (
+            <Box
+              w="100%"
+              mt={5}
+              mb={5}
+              justifyContent={'center'}
+              alignItems={'center'}>
+              <Spinner color="cyan.500" />
+            </Box>
+          );
+        }
+
+        const handleGetAllChapterClick = () =>
+          setChapterQueries({limit: chapterQuery.data.total});
+
+        const {
+          title,
+          description,
+          cover,
+          rating,
+          numFavorites,
+          authors,
+          genres,
+          formats,
+        } = comicQuery.data;
+
+        const {data} = chapterQuery.data;
+
+        return (
+          <ScrollView bgColor={'white'}>
+            <Container mb={10}>
+              <Box minW={'100%'}>
+                <Box
+                  flexDirection={{base: 'column', md: 'row'}}
+                  mt={{base: 5, md: 10}}
+                  mb={5}>
+                  <Box alignItems={'center'}>
+                    <Box
+                      borderRadius={5}
+                      overflow={'hidden'}
+                      padding={1}
+                      borderWidth={1}
+                      borderColor={'blue.100'}
+                      borderStyle={'solid'}
+                      mr={{base: 0, md: 5}}
+                      mb={{base: 2, md: 0}}>
+                      <AspectRatio
+                        minW={{base: 150, md: 250}}
+                        maxW={{base: 150, md: 250}}
+                        ratio={12 / 16}
+                        borderRadius={5}
+                        overflow={'hidden'}>
+                        <Image
+                          source={{
+                            uri: cover
+                              ? resolveImgUrl(cover)
+                              : 'https://via.placeholder.com/300x400',
+                          }}
+                          alt={title}
+                        />
+                      </AspectRatio>
                     </Box>
-                    {chapterQuery.data.total !== data.length && (
-                      <HStack justifyContent={'center'}>
-                        <Button onPress={handleGetAllChapterClick}>
-                          Show all chapters
-                        </Button>
-                      </HStack>
+                  </Box>
+                  <Box flex={1}>
+                    <Box mb={{base: 2, md: 8}}>
+                      <Heading
+                        noOfLines={2}
+                        textAlign={{base: 'center', md: 'left'}}
+                        fontSize={{base: '2xl', sm: '2xl', md: '4xl'}}>
+                        {title}
+                      </Heading>
+                    </Box>
+                    <Box mb={2}>
+                      <Box>
+                        <HStack space={2}>
+                          <Heading fontSize={{base: 'md', md: 'lg'}}>
+                            Ratings:
+                          </Heading>
+                          <Heading
+                            fontSize={{base: 'md', md: 'lg'}}
+                            fontWeight={'normal'}>{`${
+                            rating ? rating : 'N/A'
+                          }`}</Heading>
+                        </HStack>
+                        <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
+                      </Box>
+                      <Box>
+                        <HStack space={2}>
+                          <Heading fontSize={{base: 'md', md: 'lg'}}>
+                            Favorites:
+                          </Heading>
+                          <Heading
+                            fontSize={{base: 'md', md: 'lg'}}
+                            fontWeight={'normal'}>{`${
+                            numFavorites ? numFavorites : 'N/A'
+                          }`}</Heading>
+                        </HStack>
+                        <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
+                      </Box>
+                      <Box>
+                        <HStack space={2}>
+                          <Heading fontSize={{base: 'md', md: 'lg'}}>
+                            Authors:
+                          </Heading>
+                          <HStack space={2} flexWrap={'wrap'} flex={1}>
+                            {authors.map(({id, name}) => (
+                              <Badge key={id}>{name}</Badge>
+                            ))}
+                          </HStack>
+                        </HStack>
+                        <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
+                      </Box>
+                      <Box display={showDetail ? 'flex' : 'none'}>
+                        <HStack space={2}>
+                          <Heading fontSize={{base: 'md', md: 'lg'}}>
+                            Formats:
+                          </Heading>
+                          <HStack space={2} flexWrap={'wrap'} flex={1}>
+                            {formats.map(({id, name}) => (
+                              <Badge key={id}>{name}</Badge>
+                            ))}
+                          </HStack>
+                        </HStack>
+                        <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
+                      </Box>
+                      <Box display={showDetail ? 'flex' : 'none'}>
+                        <HStack space={2}>
+                          <Heading fontSize={{base: 'md', md: 'lg'}}>
+                            Genres:
+                          </Heading>
+                          <HStack space={2} flexWrap={'wrap'} flex={1}>
+                            {genres.map(({id, name}) => (
+                              <Badge key={id}>{name}</Badge>
+                            ))}
+                          </HStack>
+                        </HStack>
+                        <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
+                      </Box>
+                      <VStack space={2}>
+                        <Heading fontSize={{base: 'md', md: 'lg'}}>
+                          Description:
+                        </Heading>
+                        <Text
+                          fontSize={{base: 'sm', md: 'md'}}
+                          numberOfLines={showDetail ? undefined : 2}>
+                          {description}
+                        </Text>
+                      </VStack>
+                    </Box>
+                    <HStack space={2}>
+                      <Button onPress={() => setShowDetail(!showDetail)}>
+                        {`${showDetail ? 'Hide' : 'Show'} details`}
+                      </Button>
+                      <Box>
+                        <FavoriteButton comicId={comicId} />
+                      </Box>
+                    </HStack>
+                  </Box>
+                </Box>
+                <Box>
+                  <Box mb={2}>
+                    <Heading fontSize={'2xl'}>Chapters</Heading>
+                  </Box>
+                  <Box>
+                    {data && data.length ? (
+                      <Box>
+                        <Box mb={4}>
+                          {data.map(chapter => (
+                            <Box key={chapter.id}>
+                              <ChapterItem {...chapter} />
+                              <Divider />
+                            </Box>
+                          ))}
+                        </Box>
+                        {chapterQuery.data.total !== data.length && (
+                          <HStack justifyContent={'center'}>
+                            <Button onPress={handleGetAllChapterClick}>
+                              Show all chapters
+                            </Button>
+                          </HStack>
+                        )}
+                      </Box>
+                    ) : (
+                      <Box mb={2} mt={2}>
+                        <Text textAlign={'center'}>No chapter</Text>
+                      </Box>
                     )}
                   </Box>
-                ) : (
-                  <Box mb={2} mt={2}>
-                    <Text textAlign={'center'}>No chapter</Text>
-                  </Box>
-                )}
+                </Box>
               </Box>
-            </Box>
-          </Box>
-        </Container>
-      </ScrollView>
+            </Container>
+          </ScrollView>
+        );
+      })()}
     </ScreenWrapper>
   );
 }

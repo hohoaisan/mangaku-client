@@ -1,3 +1,6 @@
+import {StackParams} from 'navigation';
+import {AxiosRequestConfig} from 'axios';
+
 export type QueryString = {
   search?: string;
   scope?: string;
@@ -55,6 +58,14 @@ export type ChapterPage = {
   url: string;
 };
 
+export type Favorite = {
+  comicId: string;
+  userId: string;
+  subscribe: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type ChapterDetail = Chapter & {
   pages: ChapterPage[];
   nextChapter: Chapter | null;
@@ -74,9 +85,20 @@ export type ComicChaptersQuery = QueryResponse & {
   data: Chapter[];
 };
 
+export type ComicFavoriteItem = Favorite & {comic: Comic};
+
+export type ComicsFavoriteQuery = QueryResponse & {
+  data: ComicFavoriteItem[];
+};
+
 export type LandingSectionProps = {
   id: string;
   heading: string;
   customQuery?: QueryString;
   hideViewmore?: boolean;
+  screen?: keyof StackParams;
+  getComics?: (
+    props: QueryString,
+    options?: AxiosRequestConfig,
+  ) => Promise<ComicsQuery>;
 };
