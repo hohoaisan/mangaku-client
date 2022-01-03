@@ -29,6 +29,7 @@ import {getAllChapters} from 'apis/chapter';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import resolveImgUrl from 'utils/resolveImageUrl';
 import ScreenWrapper from 'screens/helpers/ScreenWrapper';
+
 import {FavoriteButton} from 'components/FavoriteButton';
 
 type RouteProps = RouteProp<StackParams, 'ComicDetail'>;
@@ -120,7 +121,7 @@ export function ComicDetail(): ReactElement {
         } = comicQuery.data;
 
         const {data} = chapterQuery.data;
-
+        
         return (
           <ScrollView bgColor={'white'}>
             <Container mb={10}>
