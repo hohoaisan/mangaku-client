@@ -5,29 +5,15 @@ import {
   ImageBackground,
   ImageSourcePropType,
   RefreshControl,
-  ListRenderItemInfo,
 } from 'react-native';
 import {StackParams} from '../../navigation';
-import {
-  Box,
-  Text,
-  Heading,
-  ScrollView,
-  HStack,
-  Button,
-  Spinner,
-  FlatList,
-  useBreakpointValue,
-} from 'native-base';
-import {ComicCard, Container, SearchInput} from 'components';
+import {Box, Heading, ScrollView, HStack} from 'native-base';
+import {LandingSection, Container, SearchInput} from 'components';
 import ScreenWrapper from '../helpers/ScreenWrapper';
 
-import {useQuery} from 'react-query';
 import queryClient from 'query';
-import {getAllComics} from 'apis/comic';
-import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 
-import {Comic, LandingSectionProps} from 'types';
+import {LandingSectionProps} from 'types';
 import {EnumSection} from 'types/enum';
 
 import landingBG from 'assets/images/landing_bg.jpeg';
@@ -60,88 +46,6 @@ const sections: LandingSectionProps[] = [
     },
   },
 ];
-
-function LandingSection({
-  id,
-  heading,
-  customQuery,
-  hideViewmore,
-}: LandingSectionProps): ReactElement {
-  const {navigate} = useNavigation<NavigationProps>();
-  const {data, isLoading, isRefetching, isError, error} = useQuery(
-    [id, customQuery],
-    () => getAllComics(customQuery || {}),
-    {
-      keepPreviousData: false,
-    },
-  );
-
-  const isQueryLoading = isLoading || isRefetching;
-
-  const columns = useBreakpointValue({base: 2, sm: 3, lg: 6});
-
-  const handleViewMoreClick = useCallback(() => {
-    navigate('Search', {
-      sortBy: customQuery?.sortBy,
-    });
-  }, [customQuery, navigate]);
-
-  if (isError) {
-    const errorMessage = getAPIErrorMessage(error);
-    return (
-      <Box
-        w="100%"
-        mt={5}
-        mb={5}
-        justifyContent={'center'}
-        alignItems={'center'}>
-        <Text>{errorMessage}</Text>
-      </Box>
-    );
-  }
-  return (
-    <Box>
-      <Container>
-        <HStack mb={2} justifyContent={'space-between'}>
-          <Heading fontWeight="medium">{heading}</Heading>
-          {!!hideViewmore || (
-            <Button size="xs" onPress={handleViewMoreClick}>
-              View more
-            </Button>
-          )}
-        </HStack>
-        <Box>
-          {isQueryLoading ? (
-            <Box
-              w="100%"
-              mt={5}
-              mb={5}
-              justifyContent={'center'}
-              alignItems={'center'}>
-              <Spinner color="cyan.500" />
-            </Box>
-          ) : (
-            <HStack space={0} flexWrap={'wrap'} w="100%">
-              <FlatList
-                w="100%"
-                listKey={`landing-list-${id}-${columns}`}
-                key={columns}
-                data={data?.data || []}
-                keyExtractor={(item: Comic) => item.id}
-                numColumns={columns}
-                renderItem={({item}: ListRenderItemInfo<Comic>) => (
-                  <Box flex={1} margin={2}>
-                    <ComicCard {...item} />
-                  </Box>
-                )}
-              />
-            </HStack>
-          )}
-        </Box>
-      </Container>
-    </Box>
-  );
-}
 
 export function Home(): ReactElement {
   const {navigate} = useNavigation<NavigationProps>();
@@ -186,7 +90,14 @@ export function Home(): ReactElement {
         </ImageBackground>
         {sections.map(section => (
           <Box key={section.id} mt={4} mb={8}>
-            <LandingSection {...section} />
+            <LandingSection
+              {...section}
+              handleViewMore={() => {
+                navigate('Search', {
+                  sortBy: section.customQuery?.sortBy,
+                });
+              }}
+            />
           </Box>
         ))}
       </ScrollView>

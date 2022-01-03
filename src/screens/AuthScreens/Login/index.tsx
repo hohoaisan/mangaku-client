@@ -1,7 +1,7 @@
 import React, {ReactElement, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {StackParams} from '../../../navigation';
+import {ScreenName, StackParams} from '../../../navigation';
 import {
   Box,
   Text,
@@ -25,18 +25,18 @@ const styles = StyleSheet.create({
 
 export function Login(): ReactElement {
   const auth = useAuth();
-  const {navigate} = useNavigation<NavigationProps>();
+  const {navigate, replace} = useNavigation<NavigationProps>();
   const handleSignUpPress = (event?: GestureResponderEvent) => {
     if (event) {
       event.preventDefault();
     }
-    navigate('Register');
+    navigate(ScreenName.REGISTER);
   };
   useEffect(() => {
     if (auth.isLoggedIn) {
-      navigate('Home');
+      replace(ScreenName.HOME);
     }
-  }, [auth.isLoggedIn, navigate]);
+  }, [auth.isLoggedIn, replace]);
   return (
     <ScrollView contentContainerStyle={styles.root}>
       <Box

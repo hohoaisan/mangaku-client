@@ -4,7 +4,7 @@ export type StackParams = {
   Home: undefined;
   Details: {data: string} | undefined;
   Search: QueryString | undefined;
-  Favorite: undefined;
+  Favorite: QueryString | undefined;
   Profile: undefined;
   Login: undefined;
   Register: undefined;

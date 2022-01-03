@@ -2,7 +2,7 @@ import {Platform} from 'react-native';
 import {Toast, IToastProps} from 'native-base';
 
 const defaultOptions: IToastProps = {
-  placement: 'bottom',
+  placement: Platform.OS === 'web' ? 'top' : 'bottom',
 };
 
 class ToastService {
@@ -18,7 +18,7 @@ class ToastService {
     options: IToastProps = defaultOptions,
   ): string {
     return Toast.show({
-      title: message,
+      title: 'Success',
       status: 'success',
       description: message,
       ...options,
@@ -27,7 +27,7 @@ class ToastService {
 
   static error(message: string, options: IToastProps = defaultOptions): string {
     return Toast.show({
-      title: message,
+      title: 'Error',
       status: 'error',
       description: message,
       ...options,
@@ -35,8 +35,17 @@ class ToastService {
   }
   static warn(message: string, options: IToastProps = defaultOptions): string {
     return Toast.show({
-      title: message,
+      title: 'Warning',
       status: 'warning',
+      description: message,
+      ...options,
+    });
+  }
+
+  static info(message: string, options: IToastProps = defaultOptions): string {
+    return Toast.show({
+      title: 'Info',
+      status: 'info',
       description: message,
       ...options,
     });
