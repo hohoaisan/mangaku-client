@@ -121,7 +121,7 @@ export function ComicDetail(): ReactElement {
         } = comicQuery.data;
 
         const {data} = chapterQuery.data;
-        
+
         return (
           <ScrollView bgColor={'white'}>
             <Container mb={10}>
