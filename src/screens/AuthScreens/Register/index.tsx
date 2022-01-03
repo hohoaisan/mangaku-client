@@ -3,7 +3,7 @@ import {GestureResponderEvent, StyleSheet} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {StackParams} from 'navigation';
+import {ScreenName, StackParams} from 'navigation';
 
 import {Box, Text, Heading, Link, HStack, ScrollView} from 'native-base';
 
@@ -23,14 +23,14 @@ export function Register(): ReactElement {
   const {navigate} = useNavigation<NavigationProps>();
   useEffect(() => {
     if (auth.isLoggedIn) {
-      navigate('Home');
+      navigate(ScreenName.HOME);
     }
   }, [auth.isLoggedIn, navigate]);
   const handleSignInPress = (event?: GestureResponderEvent) => {
     if (event) {
       event.preventDefault();
     }
-    navigate('Login');
+    navigate(ScreenName.LOGIN);
   };
   return (
     <ScrollView contentContainerStyle={styles.root}>

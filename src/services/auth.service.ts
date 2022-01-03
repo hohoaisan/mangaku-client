@@ -7,6 +7,7 @@ import {LoginApiProps, RegisterApiProps, ResponseErrorData} from 'types/apis';
 import * as authAPI from 'apis/auth';
 import * as profileAPI from 'apis/profile';
 import httpStatus from 'http-status';
+import queryClient from 'query';
 
 class AuthService {
   static async init(): Promise<void> {
@@ -80,6 +81,9 @@ class AuthService {
       } else {
         ToastService.success('Logged out');
       }
+      await queryClient.cancelMutations();
+      await queryClient.cancelQueries();
+      await queryClient.clear();
     }
     return Promise.resolve();
   }

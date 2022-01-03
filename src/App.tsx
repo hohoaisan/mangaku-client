@@ -8,16 +8,19 @@ import queryClient from 'query';
 
 import AuthService from 'services/auth.service';
 import {setupAxiosInterceptors} from 'apis/_axios/interceptors';
+import AuthProvider from 'provider/AuthProvider';
 
 // init services
 setupAxiosInterceptors();
 AuthService.init();
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
-      <Navigation />
+      <AuthProvider>
+        <Navigation />
+      </AuthProvider>
     </QueryClientProvider>
   );
 };
