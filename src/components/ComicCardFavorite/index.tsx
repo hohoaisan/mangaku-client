@@ -50,7 +50,7 @@ export const ComicCardFavorite: React.FC<
         right={0}
         bgColor={'white'}
         m={2}
-        overflowY={'hidden'}
+        overflow={'hidden'}
         borderRadius={100}>
         {favorite ? (
           <IconButton

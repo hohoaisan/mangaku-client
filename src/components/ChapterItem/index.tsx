@@ -4,7 +4,8 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {GestureResponderEvent} from 'react-native';
 
 import {StackParams} from 'navigation';
-import {Text, Box, HStack, Pressable, Link} from 'native-base';
+import {Text, HStack, Pressable, Link, Icon, Button} from 'native-base';
+import VectorIcon from 'react-native-vector-icons/Ionicons';
 import {Chapter} from 'types';
 
 import {paths} from 'navigation';
@@ -29,9 +30,11 @@ export const ChapterItem: React.FC<Chapter> = chapter => {
     <Pressable>
       <HStack
         justifyContent={'space-between'}
+        alignItems="center"
         mb={{base: 1, md: 2}}
-        mt={{base: 1, md: 2}}>
-        <Box flex={1}>
+        mt={{base: 1, md: 2}}
+        space={1}>
+        <HStack flex={1} opacity={chapter.lastRead ? 0.5 : 1}>
           <Link
             _web={{
               href: paths.ComicChapter?.toString()
@@ -46,7 +49,22 @@ export const ChapterItem: React.FC<Chapter> = chapter => {
               }`}
             </Text>
           </Link>
-        </Box>
+        </HStack>
+        {chapter.isLastedRead && (
+          <Button
+            size="xs"
+            bgColor={'purple.600'}
+            onPress={handleChapterPress}
+            startIcon={
+              <Icon
+                color="white"
+                as={<VectorIcon name="location-sharp" />}
+                size="xs"
+              />
+            }>
+            Last read
+          </Button>
+        )}
         <HStack space={2}>
           {chapter.volume && (
             <Text fontWeight={'semibold'} noOfLines={1}>

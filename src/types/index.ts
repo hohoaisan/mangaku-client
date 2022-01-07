@@ -35,6 +35,7 @@ export type Comic = {
   description: string;
   rating: number | null;
   numFavorites: number;
+  viewCount: number;
   createdAt: string | undefined;
   updatedAt: string | undefined;
   cover: string;
@@ -50,6 +51,8 @@ export type Chapter = {
   volume: number;
   createdAt: string | undefined;
   updatedAt: string | undefined;
+  lastRead: string | undefined;
+  isLastedRead: boolean | undefined;
 };
 
 export type ChapterPage = {
@@ -89,6 +92,16 @@ export type ComicFavoriteItem = Favorite & {comic: Comic};
 
 export type ComicsFavoriteQuery = QueryResponse & {
   data: ComicFavoriteItem[];
+};
+
+export type ComicReadHistoryItem = {
+  lastRead: string;
+  chapter: Pick<Chapter, 'id' | 'name' | 'number'>;
+  comic: Comic;
+};
+
+export type ComicsReadHistoryQuery = QueryResponse & {
+  data: ComicReadHistoryItem[];
 };
 
 export type LandingSectionProps = {

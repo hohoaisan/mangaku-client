@@ -5,7 +5,7 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {ReactElement, useCallback, useRef} from 'react';
+import React, {ReactElement, useCallback, useEffect, useRef} from 'react';
 import {
   RefreshControl,
   GestureResponderEvent,
@@ -27,13 +27,21 @@ import {StackParams} from '../../navigation';
 
 import {Container} from 'components';
 // react query
-import {useQuery} from 'react-query';
-import {CHAPTER, COMIC} from 'query/queryKeys';
+import {useMutation, useQuery} from 'react-query';
+import {
+  CHAPTER,
+  CHAPTERS,
+  COMIC,
+  PROFILE_READ_HISTORY,
+  READ_HISTORY,
+} from 'query/queryKeys';
 import {getChapter} from 'apis/chapter';
 import {getComic} from 'apis/comic';
+import {addComicChapterToHistory} from 'apis/history';
 
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import resolveImgUrl from 'utils/resolveImageUrl';
+import queryClient from 'query';
 
 type NavigationProps = NativeStackNavigationProp<StackParams, 'ComicChapter'>;
 type RouteProps = RouteProp<StackParams, 'ComicChapter'>;
@@ -67,6 +75,22 @@ export function ComicChapter(): ReactElement {
       keepPreviousData: true,
     },
   );
+
+  const chapterReadMutation = useMutation(
+    () => addComicChapterToHistory(comicId, chapterId),
+    {
+      retry: 1,
+      onSettled: () => {
+        queryClient.invalidateQueries(CHAPTERS);
+        queryClient.invalidateQueries(PROFILE_READ_HISTORY);
+        queryClient.invalidateQueries(READ_HISTORY);
+      },
+    },
+  );
+
+  useEffect(() => {
+    chapterReadMutation.mutate();
+  }, [comicId, chapterId]);
 
   const refetch = () => {
     chapterQuery.refetch();
@@ -202,6 +226,8 @@ export function ComicChapter(): ReactElement {
                           uri: resolveImgUrl(page.url),
                         }}
                         alt={`Page ${page.order}`}
+                        resizeMode="contain"
+                        // fallbackElement={}
                       />
                     </AspectRatio>
                   </Box>

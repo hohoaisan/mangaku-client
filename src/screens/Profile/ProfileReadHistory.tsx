@@ -15,26 +15,26 @@ import {
   Center,
 } from 'native-base';
 
-import {Container, ComicCardFavorite} from 'components';
+import {Container, ComicCardHistory} from 'components';
 import {ScreenName, StackParams} from '../../navigation';
 
-import {PROFILE_FAVORITED} from 'query/queryKeys';
-import {getFavoriteComics} from 'apis/comic';
+import {PROFILE_READ_HISTORY} from 'query/queryKeys';
+import {getComicsReadHistory} from 'apis/history';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 
-import {Comic, ComicFavoriteItem} from 'types';
+import {Comic, ComicReadHistoryItem} from 'types';
 
 type NavigationProps = NativeStackNavigationProp<
   StackParams,
   ScreenName.PROFILE
 >;
 
-export function ProfileFavorite(): ReactElement {
+export function ProfileReadHistory(): ReactElement {
   const {navigate} = useNavigation<NavigationProps>();
 
   const {data, isLoading, isRefetching, isError, error} = useQuery(
-    PROFILE_FAVORITED,
-    () => getFavoriteComics({limit: 6}),
+    PROFILE_READ_HISTORY,
+    () => getComicsReadHistory({limit: 6}),
     {
       keepPreviousData: false,
     },
@@ -45,7 +45,7 @@ export function ProfileFavorite(): ReactElement {
   const columns = useBreakpointValue({base: 2, sm: 3, lg: 6});
 
   const handleViewMore = () => {
-    navigate(ScreenName.FAVORITE);
+    navigate(ScreenName.READ_HISTORY);
   };
 
   if (isError) {
@@ -65,7 +65,7 @@ export function ProfileFavorite(): ReactElement {
     <Box w={'full'}>
       <Container>
         <HStack mb={2} justifyContent={'space-between'}>
-          <Heading fontWeight="medium">Favorites</Heading>
+          <Heading fontWeight="medium">Read history</Heading>
           <Button size="xs" onPress={handleViewMore}>
             View more
           </Button>
@@ -84,24 +84,24 @@ export function ProfileFavorite(): ReactElement {
             <>
               {!!data?.data?.length || (
                 <Center py={5}>
-                  <Text>No favorite</Text>
+                  <Text>No history</Text>
                 </Center>
               )}
               {!!data?.data && (
                 <HStack space={0} flexWrap={'wrap'} w="100%">
                   <FlatList
                     w="100%"
-                    listKey={`profile-favorite-list-${columns}`}
+                    listKey={`profile-read-history-list-${columns}`}
                     key={columns}
-                    data={data?.data || []}
+                    data={data?.data}
                     keyExtractor={(item: Comic) => item.id}
                     numColumns={columns}
                     renderItem={({
                       item,
-                    }: ListRenderItemInfo<ComicFavoriteItem>) => (
+                    }: ListRenderItemInfo<ComicReadHistoryItem>) => (
                       <Box flex={1} maxW={`${100 / columns}%`}>
                         <Box margin={2}>
-                          <ComicCardFavorite {...item.comic} />{' '}
+                          <ComicCardHistory {...item} />
                         </Box>
                       </Box>
                     )}

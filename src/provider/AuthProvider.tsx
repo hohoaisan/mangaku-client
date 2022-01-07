@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import useAuth from 'hooks/useAuth';
 import {Center, Spinner} from 'native-base';
 
 const AuthProvider: React.FC = ({children}) => {
   const auth = useAuth();
-  if (auth.isLoading) {
+  const firstRender = useRef(true);
+  if (auth.isLoading && firstRender.current) {
+    firstRender.current = false;
     return (
       <Center w={'100%'} h={'100%'}>
         <Spinner />

@@ -15,17 +15,21 @@ import {
 } from 'native-base';
 
 import ScreenWrapper from 'screens/helpers/ScreenWrapper';
-import {EnumSection} from 'types/enum';
 
 import {Container} from 'components';
 import queryClient from 'query';
 import AuthService from 'services/auth.service';
 import useAuth from 'hooks/useAuth';
 import {useQuery} from 'react-query';
-import {PROFILE, PROFILE_FAVORITED} from 'query/queryKeys';
+import {
+  PROFILE,
+  PROFILE_FAVORITED,
+  PROFILE_READ_HISTORY,
+} from 'query/queryKeys';
 import {getProfile} from 'apis/profile';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import {ProfileFavorite} from './ProfileFavorite';
+import {ProfileReadHistory} from './ProfileReadHistory';
 
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Profile'>;
 
@@ -45,6 +49,7 @@ export const Profile: React.FC = () => {
   const refetch = () => {
     refetchProfile();
     queryClient.invalidateQueries(PROFILE_FAVORITED);
+    queryClient.invalidateQueries(PROFILE_READ_HISTORY);
   };
   const handleLogoutClick = () => {
     AuthService.logout();
@@ -133,6 +138,12 @@ export const Profile: React.FC = () => {
             <Box my={2}>
               <Box>
                 <ProfileFavorite />
+              </Box>
+            </Box>
+            <Divider />
+            <Box my={2}>
+              <Box>
+                <ProfileReadHistory />
               </Box>
             </Box>
           </Box>

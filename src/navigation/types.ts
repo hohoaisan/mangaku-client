@@ -5,6 +5,7 @@ export type StackParams = {
   Details: {data: string} | undefined;
   Search: QueryString | undefined;
   Favorite: QueryString | undefined;
+  History: QueryString | undefined;
   Profile: undefined;
   Login: undefined;
   Register: undefined;
