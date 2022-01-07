@@ -12,6 +12,7 @@ import {
   FlatList,
   useBreakpointValue,
   Button,
+  Center,
 } from 'native-base';
 
 import {Container, ComicCardFavorite} from 'components';
@@ -61,7 +62,7 @@ export function ProfileFavorite(): ReactElement {
     );
   }
   return (
-    <Box>
+    <Box w={'full'}>
       <Container>
         <HStack mb={2} justifyContent={'space-between'}>
           <Heading fontWeight="medium">Favorites</Heading>
@@ -80,23 +81,34 @@ export function ProfileFavorite(): ReactElement {
               <Spinner color="cyan.500" />
             </Box>
           ) : (
-            <HStack space={0} flexWrap={'wrap'} w="100%">
-              <FlatList
-                w="100%"
-                listKey={`profile-favorite-list-${columns}`}
-                key={columns}
-                data={data?.data || []}
-                keyExtractor={(item: Comic) => item.id}
-                numColumns={columns}
-                renderItem={({item}: ListRenderItemInfo<ComicFavoriteItem>) => (
-                  <Box flex={1} maxW={`${100 / columns}%`}>
-                    <Box margin={2}>
-                      <ComicCardFavorite {...item.comic} />{' '}
-                    </Box>
-                  </Box>
-                )}
-              />
-            </HStack>
+            <>
+              {!!data?.data?.length || (
+                <Center py={5}>
+                  <Text>No favorite</Text>
+                </Center>
+              )}
+              {!!data?.data && (
+                <HStack space={0} flexWrap={'wrap'} w="100%">
+                  <FlatList
+                    w="100%"
+                    listKey={`profile-favorite-list-${columns}`}
+                    key={columns}
+                    data={data?.data || []}
+                    keyExtractor={(item: Comic) => item.id}
+                    numColumns={columns}
+                    renderItem={({
+                      item,
+                    }: ListRenderItemInfo<ComicFavoriteItem>) => (
+                      <Box flex={1} maxW={`${100 / columns}%`}>
+                        <Box margin={2}>
+                          <ComicCardFavorite {...item.comic} />{' '}
+                        </Box>
+                      </Box>
+                    )}
+                  />
+                </HStack>
+              )}
+            </>
           )}
         </Box>
       </Container>

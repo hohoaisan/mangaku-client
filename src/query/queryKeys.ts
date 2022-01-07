@@ -10,3 +10,7 @@ export const COMICS = 'COMICS';
 export const COMIC = 'COMIC';
 export const CHAPTERS = 'CHAPTERS';
 export const CHAPTER = 'CHAPTER';
+export const PROFILE = 'PROFILE';
+export const FAVORITED = 'FAVORITED';
+export const PROFILE_FAVORITED = 'PROFILE_FAVORITED';
+export const FAVORITE_COMIC_INDICATE = 'FAVORITE_COMIC_INDICATE';

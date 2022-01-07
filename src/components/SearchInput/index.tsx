@@ -25,17 +25,40 @@ export function SearchInput({
     },
     [setSearchString],
   );
+  const onResetSearch = useCallback(() => {
+    setSearchString('');
+    if (onSearchSubmit) {
+      onSearchSubmit('');
+    }
+  }, [onSearchSubmit, setSearchString]);
   return (
     <HStack space={2} w={{base: '100%', md: 500}}>
-      <Input
-        bgColor={'white'}
-        flex={1}
-        value={searchString}
-        placeholder="Type here to search"
-        onSubmitEditing={onSubmit}
-        onChangeText={onInputChange}
-        size={size}
-      />
+      <HStack flex={1}>
+        <Input
+          bgColor={'white'}
+          flex={1}
+          value={searchString}
+          placeholder="Type here to search"
+          onSubmitEditing={onSubmit}
+          onChangeText={onInputChange}
+          size={size}
+        />
+        {!!searchString && (
+          <IconButton
+            bgColor={'red.400'}
+            justifyContent={'center'}
+            alignContent={'center'}
+            onPress={onResetSearch}
+            icon={
+              <Icon
+                as={<VectorIcon name="close-outline" />}
+                size="sm"
+                color="white"
+              />
+            }
+          />
+        )}
+      </HStack>
       <IconButton
         bgColor={'primary.600'}
         justifyContent={'center'}

@@ -6,3 +6,5 @@ export {SearchInput} from './SearchInput';
 export type {SearchInputProps} from './SearchInput';
 export {Footer} from './Footer';
 export {Pagination} from './Pagination';
+export {LandingSection} from './LandingSection';
+export {ComicCardFavorite} from './ComicCardFavorite';

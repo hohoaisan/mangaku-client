@@ -48,7 +48,7 @@ export function ComicDetail(): ReactElement {
   const comicQuery = useQuery([COMIC, comicId], () =>
     getComic(comicId, {params: {scope: 'detail'}}),
   );
-  const [chapterQueries, setChapterQueries] = useState({limit: 5});
+  const [chapterQueries, setChapterQueries] = useState({limit: 10});
 
   const chapterQuery = useQuery([CHAPTERS, comicId, chapterQueries], () =>
     getAllChapters(comicId, chapterQueries),
@@ -114,6 +114,7 @@ export function ComicDetail(): ReactElement {
           description,
           cover,
           rating,
+          viewCount,
           numFavorites,
           authors,
           genres,
@@ -167,6 +168,19 @@ export function ComicDetail(): ReactElement {
                       </Heading>
                     </Box>
                     <Box mb={2}>
+                      <Box>
+                        <HStack space={2}>
+                          <Heading fontSize={{base: 'md', md: 'lg'}}>
+                            Views:
+                          </Heading>
+                          <Heading
+                            fontSize={{base: 'md', md: 'lg'}}
+                            fontWeight={'normal'}>{`${
+                            viewCount ? viewCount : 0
+                          }`}</Heading>
+                        </HStack>
+                        <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
+                      </Box>
                       <Box>
                         <HStack space={2}>
                           <Heading fontSize={{base: 'md', md: 'lg'}}>
