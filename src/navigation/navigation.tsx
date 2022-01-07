@@ -16,6 +16,7 @@ import {
   NotFound,
   ComicDetail,
   ComicChapter,
+  ReadHistory,
 } from '../screens';
 
 import './GestureHandler';
@@ -59,6 +60,16 @@ const screens: ScreenOptions[] = [
     name: ScreenName.FAVORITE,
     component: Favorite,
     options: {headerShown: true, header: AppBar},
+  },
+  {
+    name: ScreenName.READ_HISTORY,
+    component: ReadHistory,
+    options: {headerShown: true, header: AppBar},
+    initialParams: {
+      page: 1,
+      search: '',
+      limit: 24,
+    },
   },
   {
     name: ScreenName.PROFILE,

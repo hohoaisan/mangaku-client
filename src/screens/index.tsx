@@ -8,3 +8,4 @@ export * from './AuthScreens/Register';
 export * from './NotFound';
 export * from './ComicDetail';
 export * from './ComicChapter';
+export * from './ReadHistory';

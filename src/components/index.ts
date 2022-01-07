@@ -8,3 +8,4 @@ export {Footer} from './Footer';
 export {Pagination} from './Pagination';
 export {LandingSection} from './LandingSection';
 export {ComicCardFavorite} from './ComicCardFavorite';
+export {ComicCardHistory} from './ComicCardHistory';
