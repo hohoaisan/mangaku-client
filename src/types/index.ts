@@ -131,3 +131,12 @@ export type Comment = {
 export type CommentQuery = QueryResponse & {
   data: Comment[];
 };
+
+export type Review = {
+  comicId: string;
+  userId: string;
+  content: string;
+  rating: number;
+  updatedAt: string;
+  createdAt: string;
+};
