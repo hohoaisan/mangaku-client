@@ -9,3 +9,7 @@ export {Pagination} from './Pagination';
 export {LandingSection} from './LandingSection';
 export {ComicCardFavorite} from './ComicCardFavorite';
 export {ComicCardHistory} from './ComicCardHistory';
+export {InputComment} from './InputComment';
+export type {InputCommentProps} from './InputComment';
+export {CommentCard} from './CommentCard';
+export {FloatingComment} from './FloatingComment';

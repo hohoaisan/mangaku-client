@@ -25,7 +25,7 @@ import {
 } from 'native-base';
 import {StackParams} from '../../navigation';
 
-import {Container} from 'components';
+import {Container, FloatingComment} from 'components';
 // react query
 import {useMutation, useQuery} from 'react-query';
 import {
@@ -262,6 +262,7 @@ export function ComicChapter(): ReactElement {
           </Box>
         </Container>
       </ScrollView>
+      <FloatingComment hideLabel comicId={comicId} />
     </Box>
   );
 }

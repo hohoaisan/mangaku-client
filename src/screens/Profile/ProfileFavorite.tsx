@@ -22,7 +22,7 @@ import {PROFILE_FAVORITED} from 'query/queryKeys';
 import {getFavoriteComics} from 'apis/comic';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 
-import {Comic, ComicFavoriteItem} from 'types';
+import {ComicFavoriteItem} from 'types';
 
 type NavigationProps = NativeStackNavigationProp<
   StackParams,
@@ -94,7 +94,7 @@ export function ProfileFavorite(): ReactElement {
                     listKey={`profile-favorite-list-${columns}`}
                     key={columns}
                     data={data?.data || []}
-                    keyExtractor={(item: Comic) => item.id}
+                    keyExtractor={(item: ComicFavoriteItem) => item.comicId}
                     numColumns={columns}
                     renderItem={({
                       item,

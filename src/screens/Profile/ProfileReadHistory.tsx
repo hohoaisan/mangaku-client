@@ -22,7 +22,7 @@ import {PROFILE_READ_HISTORY} from 'query/queryKeys';
 import {getComicsReadHistory} from 'apis/history';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 
-import {Comic, ComicReadHistoryItem} from 'types';
+import {ComicReadHistoryItem} from 'types';
 
 type NavigationProps = NativeStackNavigationProp<
   StackParams,
@@ -94,7 +94,7 @@ export function ProfileReadHistory(): ReactElement {
                     listKey={`profile-read-history-list-${columns}`}
                     key={columns}
                     data={data?.data}
-                    keyExtractor={(item: Comic) => item.id}
+                    keyExtractor={(item: ComicReadHistoryItem) => item.comic.id}
                     numColumns={columns}
                     renderItem={({
                       item,
