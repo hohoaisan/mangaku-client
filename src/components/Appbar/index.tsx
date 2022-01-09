@@ -1,5 +1,5 @@
 import React from 'react';
-import {GestureResponderEvent} from 'react-native';
+import {GestureResponderEvent, Platform} from 'react-native';
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {
   HStack,
@@ -14,6 +14,8 @@ import VectorIcon from 'react-native-vector-icons/Ionicons';
 
 import {Container} from 'components';
 import {paths, ScreenName, StackParams} from 'navigation';
+
+const isNative = Platform.OS !== 'web';
 
 const AppBarItem = [
   {
@@ -53,7 +55,7 @@ const AppBar: React.FC<NativeStackHeaderProps> = ({navigation}) => {
         <Container>
           <HStack justifyContent={'space-between'} alignItems={'center'}>
             <HStack space="4" alignItems="center">
-              {isCanGoBack && (
+              {isCanGoBack && isNative && (
                 <IconButton
                   onPress={goBack}
                   icon={

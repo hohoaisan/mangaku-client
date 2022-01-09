@@ -13,3 +13,6 @@ export {InputComment} from './InputComment';
 export type {InputCommentProps} from './InputComment';
 export {CommentCard} from './CommentCard';
 export {FloatingComment} from './FloatingComment';
+export {FavoriteButton} from './FavoriteButton';
+export {ReviewButton} from './ReviewButton';
+export {Stars} from './Stars';

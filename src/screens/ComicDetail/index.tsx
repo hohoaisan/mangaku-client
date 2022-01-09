@@ -18,7 +18,14 @@ import {
 } from 'native-base';
 import {StackParams} from '../../navigation';
 
-import {Container, ChapterItem, FloatingComment} from 'components';
+import {
+  Container,
+  ChapterItem,
+  FloatingComment,
+  Stars,
+  FavoriteButton,
+  ReviewButton,
+} from 'components';
 
 // react query
 import {useQuery} from 'react-query';
@@ -29,8 +36,6 @@ import {getAllChapters} from 'apis/chapter';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import resolveImgUrl from 'utils/resolveImageUrl';
 import ScreenWrapper from 'screens/helpers/ScreenWrapper';
-
-import {FavoriteButton} from 'components/FavoriteButton';
 
 type RouteProps = RouteProp<StackParams, 'ComicDetail'>;
 
@@ -182,15 +187,22 @@ export function ComicDetail(): ReactElement {
                         <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
                       </Box>
                       <Box>
-                        <HStack space={2}>
+                        <HStack space={2} alignItems="center">
                           <Heading fontSize={{base: 'md', md: 'lg'}}>
                             Ratings:
                           </Heading>
-                          <Heading
-                            fontSize={{base: 'md', md: 'lg'}}
-                            fontWeight={'normal'}>{`${
-                            rating ? rating : 'N/A'
-                          }`}</Heading>
+                          <HStack alignItems="center" space={2}>
+                            {rating ? (
+                              <Stars stars={rating} isDisabled showLabel />
+                            ) : (
+                              <Heading
+                                fontSize={{base: 'md', md: 'lg'}}
+                                fontWeight={'normal'}>
+                                N/A
+                              </Heading>
+                            )}
+                            <ReviewButton comicId={comicId} />
+                          </HStack>
                         </HStack>
                         <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
                       </Box>
@@ -258,7 +270,9 @@ export function ComicDetail(): ReactElement {
                       </VStack>
                     </Box>
                     <HStack space={2}>
-                      <Button onPress={() => setShowDetail(!showDetail)}>
+                      <Button
+                        onPress={() => setShowDetail(!showDetail)}
+                        size={'md'}>
                         {`${showDetail ? 'Hide' : 'Show'} details`}
                       </Button>
                       <Box>
