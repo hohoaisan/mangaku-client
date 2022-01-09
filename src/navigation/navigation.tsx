@@ -25,6 +25,7 @@ import {StackParams} from './types';
 import {paths, ScreenName} from './enums';
 
 import AppBar from 'components/Appbar';
+import {Platform} from 'react-native';
 
 const Stack = createNativeStackNavigator<StackParams>();
 const linking: LinkingOptions<StackParams> = {
@@ -36,6 +37,8 @@ const linking: LinkingOptions<StackParams> = {
     screens: paths,
   },
 };
+
+const isNative = Platform.OS !== 'web';
 
 export type ScreenOptions = React.ComponentProps<typeof Stack.Screen>;
 
@@ -99,7 +102,7 @@ const screens: ScreenOptions[] = [
   {
     name: ScreenName.COMIC_CHAPTER,
     component: ComicChapter,
-    options: {headerShown: true, header: AppBar},
+    options: {headerShown: isNative ? false : true, header: AppBar},
   },
   {
     name: ScreenName.NOT_FOUND,

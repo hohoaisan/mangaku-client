@@ -1,6 +1,6 @@
 import {AxiosRequestConfig} from 'axios';
 import axios from './_axios';
-import * as AuthAPI from './_endpoints/auth';
+import * as Endpoints from './_endpoints';
 import {
   RefreshTokenApiProps,
   RefreshTokenApiResponse,
@@ -16,7 +16,7 @@ export const refreshAccessToken = async (
   const result = axios
     .request<RefreshTokenApiResponse>({
       ...AxiosOptions,
-      url: AuthAPI.TOKEN_REFRESH,
+      url: Endpoints.TOKEN_REFRESH,
       data: props.refreshToken,
     })
     .then(res => res.data);
@@ -31,7 +31,7 @@ export const login = async (
     .request<LoginApiResponse>({
       ...AxiosOptions,
       method: 'post',
-      url: AuthAPI.LOGIN,
+      url: Endpoints.LOGIN,
       data: {
         email: props.email,
         password: props.password,
@@ -49,7 +49,7 @@ export const logout = async (
     .request<never>({
       ...AxiosOptions,
       method: 'post',
-      url: AuthAPI.LOGOUT,
+      url: Endpoints.LOGOUT,
       data: {
         refreshToken: props.refreshToken,
       },
@@ -66,7 +66,7 @@ export const register = async (
     .request<never>({
       ...AxiosOptions,
       method: 'post',
-      url: AuthAPI.REGISTER,
+      url: Endpoints.REGISTER,
       data: props,
     })
     .then(res => res.data);
