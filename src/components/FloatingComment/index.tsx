@@ -33,6 +33,7 @@ import {getComments} from 'apis/comment';
 
 import useAuth from 'hooks/useAuth';
 import {useIsFocused} from '@react-navigation/native';
+import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 
 type FLoatingCommentContentProps = IActionsheetProps & {
   comicId: string;
@@ -61,7 +62,7 @@ export const FloatingCommentContent: React.FC<FLoatingCommentContentProps> = ({
   useEffect(() => {
     setQueries(defaultQueries);
   }, [props.isOpen]);
-  const {data, isLoading, isRefetching} = commentsQuery;
+  const {data, isLoading, isRefetching, isError, error} = commentsQuery;
   return (
     <Actionsheet {...props}>
       <Actionsheet.Content borderTopRadius={5} flexDirection="column" w="full">
@@ -78,6 +79,11 @@ export const FloatingCommentContent: React.FC<FLoatingCommentContentProps> = ({
                 />
               </Box>
               <Box flex={1}>
+                {isError && (
+                  <Center>
+                    <Text color={'red.600'}>{getAPIErrorMessage(error)}</Text>
+                  </Center>
+                )}
                 {(isLoading || isRefetching) && <Spinner />}
                 {!data?.pages && (
                   <Center>
