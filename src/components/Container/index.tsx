@@ -10,7 +10,7 @@ export const Container: React.FC<IBoxProps> = ({children, ...props}) => {
       flexDirection={'row'}
       width={'100%'}
       justifyContent={'center'}
-      flex={1}>
+      {...props}>
       <Box w={settings} minW={settings} maxW={settings} {...props}>
         {children}
       </Box>

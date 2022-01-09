@@ -1,5 +1,6 @@
 import {StackParams} from 'navigation';
 import {AxiosRequestConfig} from 'axios';
+import {User} from './auth';
 
 export type QueryString = {
   search?: string;
@@ -114,4 +115,19 @@ export type LandingSectionProps = {
     props: QueryString,
     options?: AxiosRequestConfig,
   ) => Promise<ComicsQuery>;
+};
+
+export type Comment = {
+  id: string;
+  comicId: string;
+  userId: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  user: Pick<User, 'id' | 'name'>;
+  isEditable: boolean;
+};
+
+export type CommentQuery = QueryResponse & {
+  data: Comment[];
 };
