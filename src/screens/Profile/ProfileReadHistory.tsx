@@ -22,7 +22,7 @@ import {PROFILE_READ_HISTORY} from 'query/queryKeys';
 import {getComicsReadHistory} from 'apis/history';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 
-import {Comic, ComicReadHistoryItem} from 'types';
+import {ComicReadHistoryItem} from 'types';
 
 type NavigationProps = NativeStackNavigationProp<
   StackParams,
@@ -30,7 +30,7 @@ type NavigationProps = NativeStackNavigationProp<
 >;
 
 export function ProfileReadHistory(): ReactElement {
-  const {navigate} = useNavigation<NavigationProps>();
+  const {push} = useNavigation<NavigationProps>();
 
   const {data, isLoading, isRefetching, isError, error} = useQuery(
     PROFILE_READ_HISTORY,
@@ -45,7 +45,7 @@ export function ProfileReadHistory(): ReactElement {
   const columns = useBreakpointValue({base: 2, sm: 3, lg: 6});
 
   const handleViewMore = () => {
-    navigate(ScreenName.READ_HISTORY);
+    push(ScreenName.READ_HISTORY);
   };
 
   if (isError) {
@@ -94,7 +94,7 @@ export function ProfileReadHistory(): ReactElement {
                     listKey={`profile-read-history-list-${columns}`}
                     key={columns}
                     data={data?.data}
-                    keyExtractor={(item: Comic) => item.id}
+                    keyExtractor={(item: ComicReadHistoryItem) => item.comic.id}
                     numColumns={columns}
                     renderItem={({
                       item,
