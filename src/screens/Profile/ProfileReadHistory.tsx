@@ -30,7 +30,7 @@ type NavigationProps = NativeStackNavigationProp<
 >;
 
 export function ProfileReadHistory(): ReactElement {
-  const {push} = useNavigation<NavigationProps>();
+  const {navigate} = useNavigation<NavigationProps>();
 
   const {data, isLoading, isRefetching, isError, error} = useQuery(
     PROFILE_READ_HISTORY,
@@ -45,7 +45,7 @@ export function ProfileReadHistory(): ReactElement {
   const columns = useBreakpointValue({base: 2, sm: 3, lg: 6});
 
   const handleViewMore = () => {
-    push(ScreenName.READ_HISTORY);
+    navigate(ScreenName.READ_HISTORY);
   };
 
   if (isError) {
