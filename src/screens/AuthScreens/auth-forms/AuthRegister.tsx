@@ -35,7 +35,15 @@ const registerValidationSchema = Yup.object().shape({
     .required('Confirm password is required'),
 });
 
-export default function AuthRegister(): JSX.Element {
+type AuthRegisterProps = {
+  onSuccess?: () => void;
+  onFailed?: () => void;
+};
+
+export default function AuthRegister({
+  onSuccess,
+  onFailed,
+}: AuthRegisterProps): JSX.Element {
   return (
     <Formik
       initialValues={registerInitValue}
@@ -49,7 +57,8 @@ export default function AuthRegister(): JSX.Element {
           await AuthService.register({name, email, password, confirmPassword});
           setStatus({success: true});
           setSubmitting(false);
-          // resetForm();
+          resetForm();
+          onSuccess && onSuccess();
         } catch (err) {
           setStatus({success: false});
           if ((err as Error).message) {
@@ -57,6 +66,7 @@ export default function AuthRegister(): JSX.Element {
             setErrors({submit: (err as Error).message});
           }
           setSubmitting(false);
+          onFailed && onFailed();
         }
       }}>
       {({

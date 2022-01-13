@@ -67,7 +67,7 @@ export function Register(): ReactElement {
             size="xs">
             Sign up to have better experience!
           </Heading>
-          <AuthRegister />
+          <AuthRegister onSuccess={handleSignInPress} />
           <HStack mt="6" justifyContent="center">
             <Text
               fontSize="sm"
