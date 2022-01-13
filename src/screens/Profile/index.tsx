@@ -30,6 +30,7 @@ import {getProfile} from 'apis/profile';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import {ProfileFavorite} from './ProfileFavorite';
 import {ProfileReadHistory} from './ProfileReadHistory';
+import BecomeAuthor from './BecomeAuthor';
 
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Profile'>;
 
@@ -131,6 +132,7 @@ export const Profile: React.FC = () => {
               </Box>
               <HStack space={2} direction={{base: 'column', md: 'row'}}>
                 <Button>Edit profile</Button>
+                <BecomeAuthor />
                 <Button onPress={handleLogoutClick}>Logout</Button>
               </HStack>
             </HStack>
