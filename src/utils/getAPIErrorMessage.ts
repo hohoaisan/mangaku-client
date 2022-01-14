@@ -1,4 +1,5 @@
 import axios from 'axios';
+import strings from 'configs/strings';
 
 const getAPIErrorMessage = (error: unknown): string => {
   if (axios.isAxiosError(error)) {
@@ -6,16 +7,16 @@ const getAPIErrorMessage = (error: unknown): string => {
       return error.response?.data?.message;
     }
     if (error.response?.status && error.response?.status >= 500) {
-      return 'Server error';
+      return strings.errors.server;
     }
     if (error.response) {
-      return 'Unknow error';
+      return strings.errors.unknown;
     }
-    return 'Network error';
+    return strings.errors.network;
   }
   if (error instanceof Error) {
     return error.message;
   }
-  return 'Unknow error';
+  return strings.errors.unknown;
 };
 export default getAPIErrorMessage;

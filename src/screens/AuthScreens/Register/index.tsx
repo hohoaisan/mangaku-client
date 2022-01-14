@@ -9,6 +9,11 @@ import {Box, Text, Heading, Link, HStack, ScrollView} from 'native-base';
 
 import AuthRegister from '../auth-forms/AuthRegister';
 import useAuth from 'hooks/useAuth';
+import strings from 'configs/strings';
+const {
+  pages: {signup: signupStrings},
+} = strings;
+const {buttons} = strings;
 
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Register'>;
 
@@ -55,7 +60,7 @@ export function Register(): ReactElement {
             _dark={{
               color: 'warmGray.50',
             }}>
-            Welcome
+            {signupStrings.greeting}
           </Heading>
           <Heading
             mt="1"
@@ -65,7 +70,7 @@ export function Register(): ReactElement {
             color="coolGray.600"
             fontWeight="medium"
             size="xs">
-            Sign up to have better experience!
+            {signupStrings.greeting2}
           </Heading>
           <AuthRegister onSuccess={handleSignInPress} />
           <HStack mt="6" justifyContent="center">
@@ -76,7 +81,7 @@ export function Register(): ReactElement {
               _dark={{
                 color: 'warmGray.200',
               }}>
-              Already have an account?
+              {signupStrings.haveAccount}
             </Text>
             <Link
               _web={{href: '/login'}}
@@ -86,7 +91,7 @@ export function Register(): ReactElement {
                 fontWeight: 'medium',
                 fontSize: 'sm',
               }}>
-              Sign in
+              {buttons.signin}
             </Link>
           </HStack>
         </Box>

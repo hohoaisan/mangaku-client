@@ -37,6 +37,12 @@ import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import resolveImgUrl from 'utils/resolveImageUrl';
 import ScreenWrapper from 'screens/helpers/ScreenWrapper';
 
+import strings from 'configs/strings';
+const {
+  pages: {comic: comicDetailStrings},
+  buttons: buttonStrings,
+} = strings;
+
 type RouteProps = RouteProp<StackParams, 'ComicDetail'>;
 
 export function ComicDetail(): ReactElement {
@@ -176,7 +182,7 @@ export function ComicDetail(): ReactElement {
                       <Box>
                         <HStack space={2}>
                           <Heading fontSize={{base: 'md', md: 'lg'}}>
-                            Views:
+                            {comicDetailStrings.views}:
                           </Heading>
                           <Heading
                             fontSize={{base: 'md', md: 'lg'}}
@@ -189,7 +195,7 @@ export function ComicDetail(): ReactElement {
                       <Box>
                         <HStack space={2} alignItems="center">
                           <Heading fontSize={{base: 'md', md: 'lg'}}>
-                            Ratings:
+                            {comicDetailStrings.ratings}:
                           </Heading>
                           <HStack alignItems="center" space={2}>
                             {rating ? (
@@ -209,7 +215,7 @@ export function ComicDetail(): ReactElement {
                       <Box>
                         <HStack space={2}>
                           <Heading fontSize={{base: 'md', md: 'lg'}}>
-                            Favorites:
+                            {comicDetailStrings.favorites}:
                           </Heading>
                           <Heading
                             fontSize={{base: 'md', md: 'lg'}}
@@ -222,7 +228,7 @@ export function ComicDetail(): ReactElement {
                       <Box>
                         <HStack space={2}>
                           <Heading fontSize={{base: 'md', md: 'lg'}}>
-                            Authors:
+                            {comicDetailStrings.authors}:
                           </Heading>
                           <HStack space={2} flexWrap={'wrap'} flex={1}>
                             {authors.map(({id, name}) => (
@@ -235,7 +241,7 @@ export function ComicDetail(): ReactElement {
                       <Box display={showDetail ? 'flex' : 'none'}>
                         <HStack space={2}>
                           <Heading fontSize={{base: 'md', md: 'lg'}}>
-                            Formats:
+                            {comicDetailStrings.formats}:
                           </Heading>
                           <HStack space={2} flexWrap={'wrap'} flex={1}>
                             {formats.map(({id, name}) => (
@@ -248,7 +254,7 @@ export function ComicDetail(): ReactElement {
                       <Box display={showDetail ? 'flex' : 'none'}>
                         <HStack space={2}>
                           <Heading fontSize={{base: 'md', md: 'lg'}}>
-                            Genres:
+                            {comicDetailStrings.genres}:
                           </Heading>
                           <HStack space={2} flexWrap={'wrap'} flex={1}>
                             {genres.map(({id, name}) => (
@@ -260,7 +266,7 @@ export function ComicDetail(): ReactElement {
                       </Box>
                       <VStack space={2}>
                         <Heading fontSize={{base: 'md', md: 'lg'}}>
-                          Description:
+                          {comicDetailStrings.description}:
                         </Heading>
                         <Text
                           fontSize={{base: 'sm', md: 'md'}}
@@ -273,7 +279,9 @@ export function ComicDetail(): ReactElement {
                       <Button
                         onPress={() => setShowDetail(!showDetail)}
                         size={'md'}>
-                        {`${showDetail ? 'Hide' : 'Show'} details`}
+                        {showDetail
+                          ? buttonStrings.hideDetail
+                          : buttonStrings.showDetail}
                       </Button>
                       <Box>
                         <FavoriteButton comicId={comicId} />
@@ -283,7 +291,9 @@ export function ComicDetail(): ReactElement {
                 </Box>
                 <Box>
                   <Box mb={2}>
-                    <Heading fontSize={'2xl'}>Chapters</Heading>
+                    <Heading fontSize={'2xl'}>
+                      {comicDetailStrings.chapters}
+                    </Heading>
                   </Box>
                   <Box>
                     {data && data.length ? (
@@ -299,14 +309,16 @@ export function ComicDetail(): ReactElement {
                         {chapterQuery.data.total !== data.length && (
                           <HStack justifyContent={'center'}>
                             <Button onPress={handleGetAllChapterClick}>
-                              Show all chapters
+                              {buttonStrings.showAllChapters}
                             </Button>
                           </HStack>
                         )}
                       </Box>
                     ) : (
                       <Box mb={2} mt={2}>
-                        <Text textAlign={'center'}>No chapter</Text>
+                        <Text textAlign={'center'}>
+                          {comicDetailStrings.noChap}
+                        </Text>
                       </Box>
                     )}
                   </Box>

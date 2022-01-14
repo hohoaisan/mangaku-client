@@ -17,6 +17,9 @@ import {getAllComics} from 'apis/comic';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 
 import {Comic, LandingSectionProps} from 'types';
+import strings from 'configs/strings';
+
+const {buttons: buttonStrings} = strings;
 
 export function LandingSection({
   id,
@@ -63,7 +66,7 @@ export function LandingSection({
           <Heading fontWeight="medium">{heading}</Heading>
           {!!hideViewmore || (
             <Button size="xs" onPress={handleViewMore}>
-              View more
+              {buttonStrings.viewMore}
             </Button>
           )}
         </HStack>

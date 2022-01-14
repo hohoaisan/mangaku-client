@@ -6,6 +6,12 @@ import * as Yup from 'yup';
 import AuthService from 'services/auth.service';
 
 import {LoginApiProps} from 'types/apis';
+import strings from 'configs/strings';
+
+const {buttons: buttonStrings} = strings;
+const {
+  forms: {labels, validations: validateStrings},
+} = strings;
 
 const loginInitValue: LoginApiProps & {
   submit: string | null;
@@ -17,11 +23,14 @@ const loginInitValue: LoginApiProps & {
 
 const loginValidationSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Must be a valid email')
+    .email(validateStrings.emailValid)
     .min(8)
     .max(255)
-    .required('Email is required'),
-  password: Yup.string().min(8).max(255).required('Password is required'),
+    .required(validateStrings.emailRequired),
+  password: Yup.string()
+    .min(8)
+    .max(255)
+    .required(validateStrings.passwordRequired),
 });
 
 export default function AuthLogin(): JSX.Element {
@@ -59,7 +68,7 @@ export default function AuthLogin(): JSX.Element {
       }) => (
         <VStack space={3} mt="5">
           <FormControl>
-            <FormControl.Label>Email</FormControl.Label>
+            <FormControl.Label>{labels.email}</FormControl.Label>
             <Input
               value={values.email}
               onChangeText={handleChange('email')}
@@ -74,7 +83,7 @@ export default function AuthLogin(): JSX.Element {
             )}
           </FormControl>
           <FormControl>
-            <FormControl.Label>Password</FormControl.Label>
+            <FormControl.Label>{labels.password}</FormControl.Label>
             <Input
               type="password"
               value={values.password}
@@ -103,7 +112,7 @@ export default function AuthLogin(): JSX.Element {
               }}
               alignSelf="flex-end"
               mt="1">
-              Forget Password?
+              {labels.forgetPassword}
             </Link>
           </FormControl>
           <Button
@@ -112,7 +121,7 @@ export default function AuthLogin(): JSX.Element {
             onPress={() => handleSubmit()}
             bg={isSubmitting ? 'gray.200' : undefined}
             disabled={isSubmitting}>
-            Sign in
+            {buttonStrings.signin}
           </Button>
         </VStack>
       )}

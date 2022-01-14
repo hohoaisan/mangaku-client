@@ -19,6 +19,11 @@ import {createComment} from 'apis/comment';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import ToastService from 'services/toast.service';
 
+import strings from 'configs/strings';
+const {
+  entities: {comment: commentStrings},
+} = strings;
+
 export type InputCommentProps = IBoxProps &
   Pick<IInputProps, 'isDisabled' | 'placeholder'> & {
     comicId: string;
@@ -61,7 +66,9 @@ export const InputComment: React.FC<InputCommentProps> = ({
           size="md"
           value={content}
           onChangeText={text => setContent(text)}
-          placeholder={placeholder ? placeholder : 'Leave a comment'}
+          placeholder={
+            placeholder ? placeholder : commentStrings.inputPlaceholder
+          }
           isDisabled={isDisabled}
         />
       </HStack>

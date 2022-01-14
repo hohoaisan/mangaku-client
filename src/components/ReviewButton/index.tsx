@@ -18,6 +18,13 @@ import {getReview, deleteReview, updateReview, createReview} from 'apis/review';
 import {useFocusEffect} from '@react-navigation/native';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import ToastService from 'services/toast.service';
+import strings from 'configs/strings';
+
+const {
+  entities: {review: reviewStrings},
+} = strings;
+
+const {buttons} = strings;
 
 export type ReviewButtonProps = {
   comicId: string;
@@ -48,7 +55,7 @@ export const ReviewButton: React.FC<ReviewButtonProps> = ({comicId}) => {
         ToastService.error(message);
       },
       onSuccess: () => {
-        ToastService.success('Review deleted');
+        ToastService.success(reviewStrings.mutations.deleteSuccess);
         setStars(5);
         setContent('');
         setIsEdit(false);
@@ -72,7 +79,7 @@ export const ReviewButton: React.FC<ReviewButtonProps> = ({comicId}) => {
         ToastService.error(message);
       },
       onSuccess: () => {
-        ToastService.success('Review addded');
+        ToastService.success(reviewStrings.mutations.createSuccess);
         modalDisclose.onClose();
       },
       onSettled: () => {
@@ -93,7 +100,7 @@ export const ReviewButton: React.FC<ReviewButtonProps> = ({comicId}) => {
         ToastService.error(message);
       },
       onSuccess: () => {
-        ToastService.success('Review updated');
+        ToastService.success(reviewStrings.mutations.updateSuccess);
         modalDisclose.onClose();
       },
       onSettled: () => {
@@ -134,12 +141,12 @@ export const ReviewButton: React.FC<ReviewButtonProps> = ({comicId}) => {
         onPress={isReviewLoading ? undefined : modalDisclose.onToggle}
         isDisabled={isReviewLoading || !auth.isLoggedIn}
         size={'sm'}>
-        Review comic
+        {reviewStrings.title}
       </Button>
       <Modal {...modalDisclose}>
         <Modal.Content>
           <Modal.CloseButton isDisabled={isReviewLoading || !auth.isLoggedIn} />
-          <Modal.Header>Rate comic</Modal.Header>
+          <Modal.Header>{reviewStrings.title}</Modal.Header>
           <Modal.Body>
             <Box mb={4}>
               <Center>
@@ -148,7 +155,7 @@ export const ReviewButton: React.FC<ReviewButtonProps> = ({comicId}) => {
             </Box>
             <Box>
               <Box mb={2}>
-                <Text fontWeight={'bold'}>Content</Text>
+                <Text fontWeight={'bold'}>{reviewStrings.content}</Text>
               </Box>
               <Box>
                 <Input
@@ -168,12 +175,12 @@ export const ReviewButton: React.FC<ReviewButtonProps> = ({comicId}) => {
                   bgColor={'red.500'}
                   onPress={() => removeReviewMutation.mutate()}
                   isDisabled={isReviewLoading || !auth.isLoggedIn}>
-                  Delete
+                  {buttons.delete}
                 </Button>
                 <Button
                   onPress={() => updateReviewMutation.mutate()}
                   isDisabled={isReviewLoading || !auth.isLoggedIn}>
-                  Update
+                  {buttons.update}
                 </Button>
               </Button.Group>
             ) : (
@@ -181,7 +188,7 @@ export const ReviewButton: React.FC<ReviewButtonProps> = ({comicId}) => {
                 <Button
                   onPress={() => addReviewMutation.mutate()}
                   isDisabled={isReviewLoading || !auth.isLoggedIn}>
-                  Save
+                  {buttons.save}
                 </Button>
               </Button.Group>
             )}

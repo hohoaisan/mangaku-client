@@ -35,6 +35,11 @@ import useAuth from 'hooks/useAuth';
 import {useIsFocused} from '@react-navigation/native';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 
+import strings from 'configs/strings';
+const {
+  entities: {comment: commentStrings},
+} = strings;
+
 type FLoatingCommentContentProps = IActionsheetProps & {
   comicId: string;
 };
@@ -74,7 +79,7 @@ export const FloatingCommentContent: React.FC<FLoatingCommentContentProps> = ({
                   comicId={comicId}
                   isDisabled={!auth.isLoggedIn}
                   placeholder={
-                    !auth.isLoggedIn ? 'You must login to comment' : undefined
+                    !auth.isLoggedIn ? commentStrings.requireAuth : undefined
                   }
                 />
               </Box>
@@ -87,7 +92,7 @@ export const FloatingCommentContent: React.FC<FLoatingCommentContentProps> = ({
                 {(isLoading || isRefetching) && <Spinner />}
                 {!data?.pages && (
                   <Center>
-                    <Text>No comment</Text>
+                    <Text>{commentStrings.emptyResult}</Text>
                   </Center>
                 )}
                 <FlatList

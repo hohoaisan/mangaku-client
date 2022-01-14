@@ -23,6 +23,11 @@ import {getComicsReadHistory} from 'apis/history';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 
 import {ComicReadHistoryItem} from 'types';
+import strings from 'configs/strings';
+const {
+  sections: {readHistory: readHistoryStrings},
+  buttons,
+} = strings;
 
 type NavigationProps = NativeStackNavigationProp<
   StackParams,
@@ -65,9 +70,9 @@ export function ProfileReadHistory(): ReactElement {
     <Box w={'full'}>
       <Container>
         <HStack mb={2} justifyContent={'space-between'}>
-          <Heading fontWeight="medium">Read history</Heading>
+          <Heading fontWeight="medium">{readHistoryStrings.title}</Heading>
           <Button size="xs" onPress={handleViewMore}>
-            View more
+            {buttons.viewMore}
           </Button>
         </HStack>
         <Box>
@@ -84,7 +89,7 @@ export function ProfileReadHistory(): ReactElement {
             <>
               {!!data?.data?.length || (
                 <Center py={5}>
-                  <Text>No history</Text>
+                  <Text>{readHistoryStrings.noResult}</Text>
                 </Center>
               )}
               {!!data?.data && (

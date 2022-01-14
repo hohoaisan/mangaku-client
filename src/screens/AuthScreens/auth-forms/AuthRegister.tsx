@@ -8,6 +8,12 @@ import AuthService from 'services/auth.service';
 
 import {RegisterApiProps} from 'types/apis';
 
+import strings from 'configs/strings';
+const {buttons: buttonStrings} = strings;
+const {
+  forms: {labels, validations: validateStrings},
+} = strings;
+
 const registerInitValue: RegisterApiProps & {
   submit: string | null;
 } = {
@@ -20,19 +26,22 @@ const registerInitValue: RegisterApiProps & {
 
 const registerValidationSchema = Yup.object().shape({
   name: Yup.string()
-    .min(3, 'Name must at least 3 letters')
+    .min(3, validateStrings.nameValid.replace('$number', '3'))
     .max(255)
-    .required('Name is required'),
+    .required(validateStrings.nameRequired),
   email: Yup.string()
-    .email('Must be a valid email')
+    .email(validateStrings.emailValid)
     .max(255)
-    .required('Email is required'),
-  password: Yup.string().min(8).max(255).required('Password is required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], "Passwords don't match")
+    .required(validateStrings.emailRequired),
+  password: Yup.string()
     .min(8)
     .max(255)
-    .required('Confirm password is required'),
+    .required(validateStrings.passwordRequired),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], validateStrings.passwordMustMatch)
+    .min(8)
+    .max(255)
+    .required(validateStrings.confirmPasswordRequired),
 });
 
 type AuthRegisterProps = {
@@ -80,7 +89,7 @@ export default function AuthRegister({
       }) => (
         <VStack space={3} mt="5">
           <FormControl>
-            <FormControl.Label>Name</FormControl.Label>
+            <FormControl.Label>{labels.name}</FormControl.Label>
             <Input
               value={values.name}
               onChangeText={handleChange('name')}
@@ -95,7 +104,7 @@ export default function AuthRegister({
             )}
           </FormControl>
           <FormControl>
-            <FormControl.Label>Email</FormControl.Label>
+            <FormControl.Label>{labels.email}</FormControl.Label>
             <Input
               value={values.email}
               onChangeText={handleChange('email')}
@@ -110,7 +119,7 @@ export default function AuthRegister({
             )}
           </FormControl>
           <FormControl>
-            <FormControl.Label>Password</FormControl.Label>
+            <FormControl.Label>{labels.password}</FormControl.Label>
             <Input
               type="password"
               value={values.password}
@@ -126,7 +135,7 @@ export default function AuthRegister({
             )}
           </FormControl>
           <FormControl>
-            <FormControl.Label>Confirm password</FormControl.Label>
+            <FormControl.Label>{labels.confirmPassword}</FormControl.Label>
             <Input
               type="password"
               value={values.confirmPassword}
@@ -152,7 +161,7 @@ export default function AuthRegister({
             onPress={() => handleSubmit()}
             bg={isSubmitting ? 'gray.200' : undefined}
             disabled={isSubmitting}>
-            Sign up
+            {buttonStrings.signup}
           </Button>
         </VStack>
       )}

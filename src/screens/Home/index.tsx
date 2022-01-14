@@ -18,12 +18,17 @@ import {EnumSection} from 'types/enum';
 
 import landingBG from 'assets/images/landing_bg.jpeg';
 
+import strings from 'configs/strings';
+const {
+  sections: {landing: landingStrings},
+} = strings;
+
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Home'>;
 
 const sections: LandingSectionProps[] = [
   {
     id: EnumSection.RECOMMENDED,
-    heading: 'Recommended',
+    heading: landingStrings.recommended,
     customQuery: {
       limit: 6,
       sortBy: 'rating:DESC',
@@ -31,7 +36,7 @@ const sections: LandingSectionProps[] = [
   },
   {
     id: EnumSection.LATEST_UPDATE,
-    heading: 'Latest Update',
+    heading: landingStrings.lastedUpdate,
     customQuery: {
       limit: 12,
       sortBy: 'updatedAt:DESC',
@@ -39,7 +44,7 @@ const sections: LandingSectionProps[] = [
   },
   {
     id: EnumSection.RECENTLY_ADDED,
-    heading: 'Recently Added',
+    heading: landingStrings.recentlyAdded,
     customQuery: {
       limit: 12,
       sortBy: 'createdAt:DESC',
@@ -79,7 +84,7 @@ export function Home(): ReactElement {
             <Container justifyContent={'center'} alignItems={'center'}>
               <Box mb={4}>
                 <Heading color={'white'} textAlign={'center'}>
-                  Start reading your desired comic
+                  {landingStrings.title}
                 </Heading>
               </Box>
               <Box>

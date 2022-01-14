@@ -21,6 +21,11 @@ import {deleteComment, updateComment} from 'apis/comment';
 
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import ToastService from 'services/toast.service';
+import strings from 'configs/strings';
+
+const {
+  entities: {comment: commentStrings},
+} = strings;
 
 export const CommentCard: React.FC<Comment> = ({
   isEditable,
@@ -43,7 +48,9 @@ export const CommentCard: React.FC<Comment> = ({
       ToastService.error(message, {placement: 'top'});
     },
     onSuccess: () => {
-      ToastService.success('Deleted comment', {placement: 'top'});
+      ToastService.success(commentStrings.mutations.deleteSuccess, {
+        placement: 'top',
+      });
     },
     onSettled: () => {
       queryClient.invalidateQueries(COMMENTS);
@@ -58,7 +65,9 @@ export const CommentCard: React.FC<Comment> = ({
         ToastService.error(message, {placement: 'top'});
       },
       onSuccess: () => {
-        ToastService.success('Updated comment', {placement: 'top'});
+        ToastService.success(commentStrings.mutations.updateSuccess, {
+          placement: 'top',
+        });
         onClose();
       },
       onSettled: () => {

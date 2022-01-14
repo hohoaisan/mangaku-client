@@ -23,6 +23,11 @@ import {getFavoriteComics} from 'apis/comic';
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 
 import {ComicFavoriteItem} from 'types';
+import strings from 'configs/strings';
+const {
+  sections: {favorite: favoriteStrings},
+  buttons,
+} = strings;
 
 type NavigationProps = NativeStackNavigationProp<
   StackParams,
@@ -65,9 +70,9 @@ export function ProfileFavorite(): ReactElement {
     <Box w={'full'}>
       <Container>
         <HStack mb={2} justifyContent={'space-between'}>
-          <Heading fontWeight="medium">Favorites</Heading>
+          <Heading fontWeight="medium">{favoriteStrings.title}</Heading>
           <Button size="xs" onPress={handleViewMore}>
-            View more
+            {buttons.viewMore}
           </Button>
         </HStack>
         <Box>
@@ -84,7 +89,7 @@ export function ProfileFavorite(): ReactElement {
             <>
               {!!data?.data?.length || (
                 <Center py={5}>
-                  <Text>No favorite</Text>
+                  <Text>{favoriteStrings.noResult}</Text>
                 </Center>
               )}
               {!!data?.data && (
