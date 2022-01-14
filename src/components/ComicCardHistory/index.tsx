@@ -12,6 +12,7 @@ import queryClient from 'query';
 
 import ToastService from 'services/toast.service';
 import {PROFILE_READ_HISTORY, READ_HISTORY, CHAPTERS} from 'query/queryKeys';
+import strings from 'configs/strings';
 
 export const ComicCardHistory: React.FC<ComicReadHistoryItem> = ({
   chapter,
@@ -46,7 +47,11 @@ export const ComicCardHistory: React.FC<ComicReadHistoryItem> = ({
     return date.toLocaleDateString();
   }, [lastRead]);
   const chapterText = useMemo(
-    () => `Chapter ${chapter.number}`,
+    () =>
+      strings.pages.chapter.chapterAlt.replace(
+        '$number',
+        String(chapter.number),
+      ),
     [chapter.number],
   );
   return (
