@@ -17,6 +17,11 @@ import {
 } from 'apis/comic';
 
 import getAPIErrorMessage from 'utils/getAPIErrorMessage';
+import strings from 'configs/strings';
+
+const {
+  entities: {favorite: favoriteStrings},
+} = strings;
 
 export type FavoriteButtonProps = {
   comicId: string;
@@ -80,7 +85,7 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({comicId}) => {
 
   const onPress = useCallback(() => {
     if (!auth.isLoggedIn) {
-      return ToastService.info('You need to login to add to favorite');
+      return ToastService.info(favoriteStrings.requireAuth);
     }
     if (data && data.comicId) {
       return removeFavoriteMutation.mutate();
@@ -90,16 +95,16 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({comicId}) => {
 
   const label = useMemo(() => {
     if (isFavoriteLoading) {
-      return 'Loading';
+      return favoriteStrings.mutations.loading;
     }
     if (data && data.comicId) {
-      return 'Added to Favorite';
+      return favoriteStrings.mutations.unfavorite;
     }
-    return 'Add to Favorite';
+    return favoriteStrings.mutations.favorite;
   }, [data, isFavoriteLoading]);
 
   if (isError) {
-    return <Button>Favorite</Button>;
+    return <Button>{favoriteStrings.title}</Button>;
   }
 
   return (

@@ -1,6 +1,10 @@
 import React, {ReactElement, useCallback, useEffect, useState} from 'react';
 import {Input, HStack, IInputProps, IconButton, Icon} from 'native-base';
 import VectorIcon from 'react-native-vector-icons/Ionicons';
+import strings from 'configs/strings';
+const {
+  sections: {search: searchStrings},
+} = strings;
 
 export type SearchInputProps = IInputProps & {
   defaultValue?: string;
@@ -38,7 +42,7 @@ export function SearchInput({
           bgColor={'white'}
           flex={1}
           value={searchString}
-          placeholder="Type here to search"
+          placeholder={searchStrings.inputPlaceholder}
           onSubmitEditing={onSubmit}
           onChangeText={onInputChange}
           size={size}

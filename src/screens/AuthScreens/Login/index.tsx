@@ -14,6 +14,12 @@ import {
 import {StyleSheet, GestureResponderEvent} from 'react-native';
 import useAuth from 'hooks/useAuth';
 import AuthLogin from '../auth-forms/AuthLogin';
+import strings from 'configs/strings';
+
+const {
+  pages: {signin: signinStrings},
+} = strings;
+const {buttons} = strings;
 
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Login'>;
 
@@ -60,7 +66,7 @@ export function Login(): ReactElement {
             _dark={{
               color: 'warmGray.50',
             }}>
-            Welcome
+            {signinStrings.greeting}
           </Heading>
           <Heading
             mt="1"
@@ -70,7 +76,7 @@ export function Login(): ReactElement {
             color="coolGray.600"
             fontWeight="medium"
             size="xs">
-            Sign in to discover more culture!
+            {signinStrings.greeting2}
           </Heading>
 
           <VStack space={3} mt="5">
@@ -83,7 +89,7 @@ export function Login(): ReactElement {
                 _dark={{
                   color: 'warmGray.200',
                 }}>
-                I'm a new user
+                {signinStrings.noAccount}
               </Text>
               <Link
                 _web={{href: '/register'}}
@@ -93,7 +99,7 @@ export function Login(): ReactElement {
                   fontWeight: 'medium',
                   fontSize: 'sm',
                 }}>
-                Sign Up
+                {buttons.signup}
               </Link>
             </HStack>
           </VStack>

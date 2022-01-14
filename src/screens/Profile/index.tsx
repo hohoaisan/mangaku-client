@@ -32,6 +32,9 @@ import {ProfileFavorite} from './ProfileFavorite';
 import {ProfileReadHistory} from './ProfileReadHistory';
 import BecomeAuthor from './BecomeAuthor';
 
+import strings from 'configs/strings';
+const {buttons} = strings;
+
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Profile'>;
 
 export const Profile: React.FC = () => {
@@ -131,9 +134,9 @@ export const Profile: React.FC = () => {
                 </Box>
               </Box>
               <HStack space={2} direction={{base: 'column', md: 'row'}}>
-                <Button>Edit profile</Button>
+                <Button>{buttons.editProfile}</Button>
                 <BecomeAuthor />
-                <Button onPress={handleLogoutClick}>Logout</Button>
+                <Button onPress={handleLogoutClick}>{buttons.signout}</Button>
               </HStack>
             </HStack>
             <Divider />

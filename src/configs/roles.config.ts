@@ -1,3 +1,7 @@
+import strings from './strings';
+
+const {roles: roleStrings} = strings;
+
 const allRoles = {
   user: [],
   admin: ['getUsers', 'manageUsers'],
@@ -6,10 +10,10 @@ const allRoles = {
 };
 
 export const roleNames = {
-  user: 'Regular user',
-  admin: 'Administrator',
-  mod: 'Moderator',
-  author: 'Author',
+  user: roleStrings.USER,
+  admin: roleStrings.ADMIN,
+  mod: roleStrings.MOD,
+  author: roleStrings.AUTHOR,
 };
 
 export const roles = Object.keys(allRoles);

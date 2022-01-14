@@ -33,6 +33,12 @@ import ScreenWrapper from 'screens/helpers/ScreenWrapper';
 import useAuth from 'hooks/useAuth';
 import queryClient from 'query';
 
+import strings from 'configs/strings';
+const {
+  sections: {search: searchSectionStrings},
+  pages: {readHistory: readHistoryStrings},
+} = strings;
+
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Search'>;
 type RouteProps = RouteProp<StackParams, 'Search'>;
 
@@ -91,7 +97,7 @@ function SearchResult({
       <Box>
         <Box mb={4}>
           <Heading fontSize={20} fontWeight={'medium'}>
-            {query ? 'Search result' : 'Read history list'}
+            {query ? searchSectionStrings.result : readHistoryStrings.title}
           </Heading>
         </Box>
         <Box>
@@ -130,7 +136,7 @@ function SearchResult({
   }
   return (
     <Box w="100%" mt={5} mb={5} justifyContent={'center'} alignItems={'center'}>
-      <Text>No result</Text>
+      <Text>{searchSectionStrings.noResult}</Text>
     </Box>
   );
 }
@@ -189,7 +195,7 @@ export function ReadHistory(): ReactElement {
               mt={5}
               mb={4}
               _web={{mt: 10}}>
-              Read history
+              {readHistoryStrings.title}
             </Heading>
             <HStack space={2} w={{base: '100%', md: 500}}>
               <SearchInput

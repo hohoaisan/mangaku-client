@@ -9,6 +9,7 @@ import VectorIcon from 'react-native-vector-icons/Ionicons';
 import {Chapter} from 'types';
 
 import {paths} from 'navigation';
+import strings from 'configs/strings';
 
 type NavigationProps = NativeStackNavigationProp<StackParams, 'ComicDetail'>;
 type RouteProps = RouteProp<StackParams, 'ComicDetail'>;
@@ -44,7 +45,7 @@ export const ChapterItem: React.FC<Chapter> = chapter => {
             onPress={handleChapterPress}
             flex={1}>
             <Text fontSize={'md'} fontWeight={'semibold'} noOfLines={1}>
-              {`Chapter ${chapter.number}${
+              {`${strings.entities.chapter.title} ${chapter.number}${
                 chapter.name ? `: ${chapter.name}` : ''
               }`}
             </Text>
@@ -62,13 +63,13 @@ export const ChapterItem: React.FC<Chapter> = chapter => {
                 size="xs"
               />
             }>
-            Last read
+            {strings.buttons.lastRead}
           </Button>
         )}
         <HStack space={2}>
           {chapter.volume && (
             <Text fontWeight={'semibold'} noOfLines={1}>
-              {`Vol ${chapter.volume}`}
+              {`${strings.entities.volume.title} ${chapter.volume}`}
             </Text>
           )}
           {chapter.createdAt && (

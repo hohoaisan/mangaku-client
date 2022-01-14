@@ -43,6 +43,11 @@ import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import resolveImgUrl from 'utils/resolveImageUrl';
 import queryClient from 'query';
 
+import strings from 'configs/strings';
+const {
+  pages: {chapter: chapterStrings},
+} = strings;
+
 type NavigationProps = NativeStackNavigationProp<StackParams, 'ComicChapter'>;
 type RouteProps = RouteProp<StackParams, 'ComicChapter'>;
 
@@ -198,11 +203,18 @@ export function ComicChapter(): ReactElement {
                     color={'white'}>
                     {comic.title}
                   </Heading>
-                  <Heading
-                    fontSize={{base: 'xs', md: 'md'}}
-                    color={'white'}>{`Chapter ${chapter.number}${
-                    chapter.volume ? ` (Volume ${chapter.volume})` : ''
-                  }`}</Heading>
+                  <Heading fontSize={{base: 'xs', md: 'md'}} color={'white'}>
+                    {chapterStrings.chapterAlt.replace(
+                      '$number',
+                      String(chapter.number),
+                    )}
+                    -
+                    {chapter.volume &&
+                      chapterStrings.volumeAlt.replace(
+                        '$number',
+                        String(chapter.volume),
+                      )}
+                  </Heading>
                 </Box>
               </HStack>
             </Pressable>
@@ -225,7 +237,10 @@ export function ComicChapter(): ReactElement {
                         source={{
                           uri: resolveImgUrl(page.url),
                         }}
-                        alt={`Page ${page.order}`}
+                        alt={chapterStrings.pageAlt.replace(
+                          '$number',
+                          String(page.order),
+                        )}
                         resizeMode="contain"
                         // fallbackElement={}
                       />
@@ -237,26 +252,32 @@ export function ComicChapter(): ReactElement {
                     <Button
                       size={{base: 'sm', md: 'md'}}
                       onPress={handleSwitchChapter(chapter.prevChapter.id)}>
-                      {`< Chapter ${chapter.prevChapter.number}`}
+                      {chapterStrings.prevChapter.replace(
+                        '$number',
+                        String(chapter.prevChapter.number),
+                      )}
                     </Button>
                   )}
                   <Button
                     onPress={handleGoBackToManga}
                     size={{base: 'sm', md: 'md'}}>
-                    Back to manga
+                    {chapterStrings.back2Comic}
                   </Button>
                   {chapter.nextChapter && (
                     <Button
                       size={{base: 'sm', md: 'md'}}
                       onPress={handleSwitchChapter(chapter.nextChapter.id)}>
-                      {`Chapter ${chapter.nextChapter.number} >`}
+                      {chapterStrings.nextChapter.replace(
+                        '$number',
+                        String(chapter.nextChapter.number),
+                      )}
                     </Button>
                   )}
                 </HStack>
               </Box>
             ) : (
               <Box>
-                <Text>No page</Text>
+                <Text>{chapterStrings.nopage}</Text>
               </Box>
             )}
           </Box>

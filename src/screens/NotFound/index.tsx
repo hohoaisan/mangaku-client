@@ -5,6 +5,13 @@ import {StackParams} from '../../navigation';
 import {Box, Heading, Button} from 'native-base';
 import {Platform} from 'react-native';
 import ScreenWrapper from 'screens/helpers/ScreenWrapper';
+
+import strings from 'configs/strings';
+const {
+  buttons,
+  pages: {notFound: notFoundStrings},
+} = strings;
+
 type NavigationProps = NativeStackNavigationProp<StackParams, 'NotFound'>;
 
 const isNative = Platform.OS !== 'web';
@@ -33,7 +40,7 @@ export function NotFound(): ReactElement {
               _dark={{
                 color: 'warmGray.50',
               }}>
-              Opps
+              {notFoundStrings.title}
             </Heading>
             <Heading
               mt="1"
@@ -44,12 +51,12 @@ export function NotFound(): ReactElement {
               color="coolGray.600"
               fontWeight="medium"
               size="sm">
-              {`This ${isNative ? 'screen' : 'page'} was not found`}
+              {notFoundStrings.subtitle}
             </Heading>
           </Box>
           {canGoBack && (
             <Button mt="2" colorScheme="primary" onPress={handleGoBack}>
-              Go Back
+              {buttons.goBack}
             </Button>
           )}
         </Box>

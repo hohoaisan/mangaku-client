@@ -15,6 +15,8 @@ import VectorIcon from 'react-native-vector-icons/Ionicons';
 import {Container} from 'components';
 import {paths, ScreenName, StackParams} from 'navigation';
 
+import strings from 'configs/strings';
+
 const isNative = Platform.OS !== 'web';
 
 const AppBarItem = [
@@ -71,7 +73,7 @@ const AppBar: React.FC<NativeStackHeaderProps> = ({navigation}) => {
                 _web={{href: '/'}}
                 onPress={handleLinkPress(ScreenName.HOME)}>
                 <Text color="white" fontSize="20" fontWeight="bold">
-                  Mangaku
+                  {strings.title}
                 </Text>
               </Link>
             </HStack>

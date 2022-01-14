@@ -37,6 +37,12 @@ import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import {ComicsQuery, Comic} from 'types';
 import ScreenWrapper from 'screens/helpers/ScreenWrapper';
 
+import strings from 'configs/strings';
+const {
+  pages: {listComic: listComicPageStrings},
+  sections: {search: searchStrings},
+} = strings;
+
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Search'>;
 type RouteProps = RouteProp<StackParams, 'Search'>;
 
@@ -95,7 +101,7 @@ function SearchResult({
       <Box>
         <Box mb={4}>
           <Heading fontSize={20} fontWeight={'medium'}>
-            {query ? 'Search result' : 'Comic list'}
+            {query ? searchStrings.result : listComicPageStrings.title}
           </Heading>
         </Box>
         <Box>
@@ -132,7 +138,7 @@ function SearchResult({
   }
   return (
     <Box w="100%" mt={5} mb={5} justifyContent={'center'} alignItems={'center'}>
-      <Text>No result</Text>
+      <Text>{searchStrings.noResult}</Text>
     </Box>
   );
 }
@@ -181,7 +187,7 @@ export function Search(): ReactElement {
               mt={5}
               mb={4}
               _web={{mt: 10}}>
-              Search comic
+              {listComicPageStrings.title}
             </Heading>
             <HStack space={2} w={{base: '100%', md: 500}}>
               <SearchInput

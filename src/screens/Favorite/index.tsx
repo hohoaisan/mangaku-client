@@ -39,6 +39,12 @@ import {Comic, ComicsFavoriteQuery, ComicFavoriteItem} from 'types';
 import ScreenWrapper from 'screens/helpers/ScreenWrapper';
 import useAuth from 'hooks/useAuth';
 
+import strings from 'configs/strings';
+const {
+  pages: {favorite: favoritePageStrings},
+  sections: {search: searchSectionStrings},
+} = strings;
+
 type NavigationProps = NativeStackNavigationProp<StackParams, 'Search'>;
 type RouteProps = RouteProp<StackParams, 'Search'>;
 
@@ -99,7 +105,7 @@ function SearchResult({
       <Box>
         <Box mb={4}>
           <Heading fontSize={20} fontWeight={'medium'}>
-            {query ? 'Search result' : 'Favorite list'}
+            {query ? searchSectionStrings.title : favoritePageStrings.listTitle}
           </Heading>
         </Box>
         <Box>
@@ -196,7 +202,10 @@ export function Favorite(): ReactElement {
                 mb={4}
                 noOfLines={1}
                 _web={{mt: 10}}>
-                {`${auth.user?.name}'s favorites`}
+                {favoritePageStrings.title.replace(
+                  '$user',
+                  auth.user?.name || '',
+                )}
               </Heading>
               <HStack space={2} w={{base: '100%', md: 500}}>
                 <SearchInput
