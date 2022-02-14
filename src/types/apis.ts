@@ -34,3 +34,11 @@ export type RegisterApiProps = {
   password: string;
   confirmPassword: string;
 };
+
+export type UpdateProfileProps = {
+  name: string;
+  email: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+};

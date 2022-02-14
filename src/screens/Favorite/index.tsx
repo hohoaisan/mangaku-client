@@ -115,7 +115,7 @@ function SearchResult({
               listKey="comic-search-list"
               key={columns}
               data={data?.data || []}
-              keyExtractor={(item: Comic) => item.id}
+              keyExtractor={(item: ComicFavoriteItem) => item.comic.id}
               numColumns={columns}
               renderItem={({item}: ListRenderItemInfo<ComicFavoriteItem>) => (
                 <Box flex={1} maxW={`${100 / columns}%`}>

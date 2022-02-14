@@ -2,7 +2,7 @@ import axios from 'axios';
 import strings from 'configs/strings';
 
 const getAPIErrorMessage = (error: unknown): string => {
-  if (axios.isAxiosError(error)) {
+  if (error && axios.isAxiosError(error)) {
     if (error.response?.data?.message) {
       return error.response?.data?.message;
     }
