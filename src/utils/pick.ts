@@ -20,23 +20,22 @@ function pick<T, K extends keyof T>(
       options,
     );
 
-    if (!allowNull && object[key] === null) {
-      return obj;
+    if (!allowNull && obj[key] === null) {
+      return object;
     }
 
     if (
       !allowEmptyString &&
-      typeof object[key] === 'string' &&
-      String(object[key]).length === 0
+      typeof obj[key] === 'string' &&
+      String(obj[key]).trim().length === 0
     ) {
-      return obj;
+      return object;
     }
 
-    if (object && key in object) {
-      // eslint-disable-next-line no-param-reassign
-      obj[key] = object[key];
+    if (object && key in obj) {
+      object[key] = obj[key];
     }
-    return obj;
+    return object;
   }, {} as Pick<T, K>);
 }
 

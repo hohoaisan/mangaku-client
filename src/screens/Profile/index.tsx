@@ -31,6 +31,7 @@ import getAPIErrorMessage from 'utils/getAPIErrorMessage';
 import {ProfileFavorite} from './ProfileFavorite';
 import {ProfileReadHistory} from './ProfileReadHistory';
 import BecomeAuthor from './BecomeAuthor';
+import EditProfile from './EditProfile';
 
 import strings from 'configs/strings';
 const {buttons} = strings;
@@ -134,7 +135,7 @@ export const Profile: React.FC = () => {
                 </Box>
               </Box>
               <HStack space={2} direction={{base: 'column', md: 'row'}}>
-                <Button>{buttons.editProfile}</Button>
+                <EditProfile />
                 <BecomeAuthor />
                 <Button onPress={handleLogoutClick}>{buttons.signout}</Button>
               </HStack>
