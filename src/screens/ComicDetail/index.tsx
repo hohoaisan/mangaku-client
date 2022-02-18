@@ -204,7 +204,7 @@ export function ComicDetail(): ReactElement {
                               <Heading
                                 fontSize={{base: 'md', md: 'lg'}}
                                 fontWeight={'normal'}>
-                                N/A
+                                Chưa có
                               </Heading>
                             )}
                             <ReviewButton comicId={comicId} />
@@ -220,7 +220,7 @@ export function ComicDetail(): ReactElement {
                           <Heading
                             fontSize={{base: 'md', md: 'lg'}}
                             fontWeight={'normal'}>{`${
-                            numFavorites ? numFavorites : 'N/A'
+                            numFavorites ? numFavorites : 0
                           }`}</Heading>
                         </HStack>
                         <Divider mt={{base: 1, md: 2}} mb={{base: 1, md: 2}} />
@@ -328,7 +328,7 @@ export function ComicDetail(): ReactElement {
           </ScrollView>
         );
       })()}
-      <FloatingComment hideLabel comicId={comicId} />
+      <FloatingComment comicId={comicId} />
     </ScreenWrapper>
   );
 }

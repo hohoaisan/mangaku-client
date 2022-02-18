@@ -162,7 +162,7 @@ export const FloatingComment: React.FC<FloatingCommentProps> = ({
           right={{base: 5, md: 10}}
           bottom={{base: 5, md: 10}}
           onPress={onToggle}
-          label={hideLabel ? undefined : 'Comments'}
+          label={hideLabel ? undefined : 'Bình luận'}
           icon={<Icon as={VectorIcon} size={size} name="chatbubble-outline" />}
         />
       ) : null}

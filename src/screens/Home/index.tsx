@@ -31,7 +31,7 @@ const sections: LandingSectionProps[] = [
     heading: landingStrings.recommended,
     customQuery: {
       limit: 6,
-      sortBy: 'rating:DESC',
+      sortBy: 'viewCount:DESC',
     },
   },
   {
