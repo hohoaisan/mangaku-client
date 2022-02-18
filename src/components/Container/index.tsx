@@ -11,7 +11,12 @@ export const Container: React.FC<IBoxProps> = ({children, ...props}) => {
       width={'100%'}
       justifyContent={'center'}
       {...props}>
-      <Box w={settings} minW={settings} maxW={settings} {...props}>
+      <Box
+        w={settings}
+        minW={settings}
+        maxW={settings}
+        {...props}
+        alignSelf="stretch">
         {children}
       </Box>
     </Box>
